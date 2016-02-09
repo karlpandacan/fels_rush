@@ -29,7 +29,7 @@ Route::get('/', function () {
 Route::group(['middleware' => 'web'], function () {
     Route::auth();
 
-    Route::get('/users/search', 'UserController@search');
+    Route::get('/users/search', ['as' => 'users.search', 'uses' => 'UserController@search']);
     Route::get('/home', 'HomeController@index');
     Route::get('/words/search', ['as' => 'words.search', 'uses' => 'WordController@search']);
     Route::get('/users', ['as' => 'users.index', 'uses' => 'UserController@index']);

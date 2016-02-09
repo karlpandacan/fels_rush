@@ -18,7 +18,7 @@
                         <h2 align="center">{{ auth()->user()->name }}</h2>
                         <h4 align="center">{{ auth()->user()->email }}</h4>
                         @if(!auth()->user()->isAdmin())
-                            <h5 align=center>{{ link_to_route('words.search', 'Learned'.$followers.' Words', $parameters = array('status' => 'learned'), null) }}</h5>
+                            <h5 align=center>{{ link_to_route('words.search', 'Learned '.$followers.' Words', $parameters = array('status' => 'learned'), null) }}</h5>
                             <h5 align=center>{{ link_to_route('users.search', $followers.' Followers', $parameters = array('t' => 'FRS'), null) }}</h5>
                             <h5 align=center>{{ link_to_route('users.search', $following.' Following', $parameters = array('t' => 'FNG'), null) }}</h5>
                         @endif

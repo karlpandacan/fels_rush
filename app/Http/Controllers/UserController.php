@@ -109,19 +109,24 @@ class UserController extends Controller
     public function search(Request $request)
     {
         $wildcard = $request->q;
-        $tab = isset($request->t) ? $request->t : 'NF';
-        $user = auth()->user();
-        $followingIds = $user->followers()->lists('follows.follower_id');
-        $followingIds->push($user->id);
-        $usersNotFollowing = User::ofNotIds($followingIds)->findUser($wildcard)->notAdmin()->get();
-        $usersFollowing = $user->followers()->findUser($wildcard)->notAdmin()->get();
-        $usersFollowers = $user->followees()->findUser($wildcard)->notAdmin()->get();
-//        dd($tab);
-        return view('users.search')
-            ->with('tab', $tab)
-            ->with('usersFollowers', $usersFollowers)
-            ->with('usersFollowing', $usersFollowing)
-            ->with('usersNotFollowing', $usersNotFollowing);
+        if (!auth()->user()->isAdmin()) {
+            $tab = isset($request->t) ? $request->t : 'NF';
+            $user = auth()->user();
+            $followingIds = $user->followers()->lists('follows.follower_id');
+            $followingIds->push($user->id);
+            $usersNotFollowing = User::ofNotIds($followingIds)->findUser($wildcard)->notAdmin()->get();
+            $usersFollowing = $user->followers()->findUser($wildcard)->notAdmin()->get();
+            $usersFollowers = $user->followees()->findUser($wildcard)->notAdmin()->get();
+            return view('users.search')
+                ->with('tab', $tab)
+                ->with('usersFollowers', $usersFollowers)
+                ->with('usersFollowing', $usersFollowing)
+                ->with('usersNotFollowing', $usersNotFollowing);
+        } else {
+            $users = User::findUser($wildcard)->get();
+            return view('users.search')
+                ->with('users', $users);
+        }
     }
 
     public function updatePassword(Request $request, User $user)

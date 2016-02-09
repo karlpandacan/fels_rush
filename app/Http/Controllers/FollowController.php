@@ -17,6 +17,13 @@ class FollowController extends Controller
     public function store(Request $request)
     {
         auth()->user()->followers()->attach($request->uid);
+        $followedUser = auth()->user()->find($request->uid)->first();
+        auth()->user()->activities()->create([
+            'lesson_id' => 0,
+            'content'   => 'followed ' . $followedUser->name . ' with email ' . $followedUser->email,
+            'activity_type' => config()->get('activity_type.FOLLOWED_USER')
+        ]);
+
         return redirect()->back();
     }
 
@@ -29,6 +36,13 @@ class FollowController extends Controller
     public function destroy($id)
     {
         auth()->user()->followers()->detach($id);
+        $unfollowedUser = auth()->user()->find($id)->first();
+        auth()->user()->activities()->create([
+            'lesson_id' => 0,
+            'content'   => 'unfollowed ' . $unfollowedUser->name . ' with email ' . $unfollowedUser->email,
+            'activity_type' => config()->get('activity_type.FOLLOWED_USER')
+        ]);
+
         return redirect()->back();
     }
 }

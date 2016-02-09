@@ -1,0 +1,14 @@
+/bootstrap/compiled.php
+.env.*.php
+.env.php
+.env
+/vendor
+/node_modules
+Homestead.yaml
+Homestead.json
+*.log
+/nbproject/private/
+/nbprojectpublic/images
+/nbproject
+/public/images
+.idea

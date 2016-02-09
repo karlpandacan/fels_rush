@@ -20,7 +20,7 @@ class FollowController extends Controller
         $followedUser = auth()->user()->find($request->uid)->first();
         auth()->user()->activities()->create([
             'lesson_id' => 0,
-            'content'   => 'followed ' . $followedUser->name . ' with email ' . $followedUser->email,
+            'content'   => 'Followed ' . $followedUser->name . ' with email ' . $followedUser->email,
             'activity_type' => config()->get('activity_type.FOLLOWED_USER')
         ]);
 
@@ -39,7 +39,7 @@ class FollowController extends Controller
         $unfollowedUser = auth()->user()->find($id)->first();
         auth()->user()->activities()->create([
             'lesson_id' => 0,
-            'content'   => 'unfollowed ' . $unfollowedUser->name . ' with email ' . $unfollowedUser->email,
+            'content'   => 'Unfollowed ' . $unfollowedUser->name . ' with email ' . $unfollowedUser->email,
             'activity_type' => config()->get('activity_type.FOLLOWED_USER')
         ]);
 

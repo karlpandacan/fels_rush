@@ -108,12 +108,12 @@ class WordController extends Controller
         }
 
         switch($request->input('status')) {
-            case "learned":
+            case 1:
                 $words = $category->words()->userLearnedWords(auth()->user())
                 ->selectWords()->paginate(20);
                 break;
 
-            case "unlearned":
+            case 2:
                 $words = $category->words()->userUnlearnedWords(auth()->user())
                 ->selectWords()->paginate(20);
                 break;

@@ -29,7 +29,7 @@
                                             @if($category->words()->userUnlearnedWords(auth()->user())->count() > 19)
                                                 {!! Form::submit('Start Lesson', ['class' => 'btn btn-success']) !!}
                                             @else
-                                                {!! Form::button('Start Lesson', ['class' => 'btn btn-success disabled']) !!}
+                                                {!! Form::button('Start Lesson', ['class' => 'btn disabled']) !!}
                                             @endif
                                         {!! Form::close() !!}
                                         <h4>{{ $category->description }}</h4>

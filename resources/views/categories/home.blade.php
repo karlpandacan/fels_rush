@@ -9,7 +9,7 @@
                     <div class="panel-body">
                         @if(auth()->user()->isAdmin())
                             {!! Form::open(['method' => 'get', 'route' => 'categories.create']) !!}
-                                {!! Form::submit('Add Category', ['class' => 'btn btn-primary']) !!}
+                                {!! Form::submit('Add Category', ['class' => 'btn btn-success']) !!}
                             {!! Form::close() !!}
                         @endif
                         <br>

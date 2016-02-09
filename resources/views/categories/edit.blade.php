@@ -28,12 +28,14 @@
                                     {!! Form::file('category_image') !!}
                                 </div>
                                 <div class="form-group">
-                                    {!! Form::submit('Save', ['class' => 'btn btn-primary']) !!}
-                                </div>
-                            {!! Form::close() !!}
-                            {!! Form::open(['method' => 'get', 'route' => 'categories.index']) !!}
-                                <div class="form-group">
-                                    {!! Form::submit('Cancel', ['class' => 'btn btn-danger']) !!}
+                                    <div class="row">
+                                        <div class="col-xs-1">
+                                            {!! Form::submit('Save', ['class' => 'btn btn-primary']) !!}
+                                        </div>
+                                        <div class="col-xs-2">
+                                            {{ link_to_route('categories.index', 'Cancel', null, ['class' => 'btn btn-danger']) }}
+                                        </div>
+                                    </div>
                                 </div>
                             {!! Form::close() !!}
                         </div>

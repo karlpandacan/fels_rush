@@ -8,19 +8,21 @@
                     <div class="panel-body">
                         @if(auth()->user()->isAdmin())
                             {!! Form::open(['method' => 'get', 'route' => 'words.create']) !!}
-                            {!! Form::submit('NEW WORD', ['class' => 'btn btn-success']) !!}
+                            {!! Form::submit('Add Word', ['class' => 'btn btn-success']) !!}
                             {!! Form::close() !!}
                         @endif
+                        <br>
 
                         {!! Form::open(['method' => 'get', 'route' => ['words.search']]) !!}
-                            {!! Form::select('category', $categories, $category_id) !!}
-                            {!! Form::radio('status', 'learned', $status == 'learned') !!}
-                            {!! Form::label('learned', 'Learned') !!}
-                            {!! Form::radio('status', 'unlearned', $status == 'unlearned') !!}
-                            {!! Form::label('unlearned', 'Not Learned') !!}
-                            {!! Form::radio('status', 'all', $status == 'all') !!}
-                            {!! Form::label('all', 'All') !!}
-                        {!! Form::submit('Filter', ['class' => 'btn btn-primary']) !!}
+                            <div class="col-xs-2">
+                                {!! Form::select('category', $categories, $category_id) !!}
+                            </div>
+                            <div class="col-xs-2">
+                                {!! Form::select('status', ['All', 'Learned', 'Unlearned'], $status) !!}
+                            </div>
+                            <div class="col-xs-6">
+                                {!! Form::submit('Filter', ['class' => 'btn btn-primary']) !!}
+                            </div>
                         {!! Form::close() !!}
                         @foreach($words as $word)
                             <div class="row">
@@ -35,15 +37,22 @@
                                 </div>
                                 <div class="col-xs-2">
                                     @if(auth()->user()->isAdmin())
-                                        {!! Form::open(['method' => 'get', 'route' => ['words.edit', $word->id]]) !!}
-                                        {!! Form::submit('Edit', ['class' => 'btn btn-primary']) !!}
-                                        {!! Form::close() !!}
-                                        {!! Form::open(['method' => 'delete', 'route' => ['words.destroy', $word->id]]) !!}
-                                        {!! Form::submit('Delete', ['class' => 'btn btn-danger']) !!}
-                                        {!! Form::close() !!}
+                                    <div class="row">
+                                        <div class="col-xs-4">
+                                            {!! Form::open(['method' => 'get', 'route' => ['words.edit', $word->id]]) !!}
+                                            {!! Form::submit('Edit', ['class' => 'btn btn-primary']) !!}
+                                            {!! Form::close() !!}
+                                        </div>
+                                        <div class="col-xs-4">
+                                            {!! Form::open(['method' => 'delete', 'route' => ['words.destroy', $word->id]]) !!}
+                                            {!! Form::submit('Delete', ['class' => 'btn btn-danger']) !!}
+                                            {!! Form::close() !!}
+                                        </div>
+                                    </div>
                                     @endif
                                 </div>
                             </div>
+                            <br>
                         @endforeach
                         {{ $words->appends(['status' => $status, 'category' => $category_id])->render() }}
                     </div>

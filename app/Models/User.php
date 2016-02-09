@@ -95,4 +95,8 @@ class User extends Authenticatable
     {
         return $this->learnedWords->lists('word_id');
     }
+
+    public function scopeNotAdmin($query){
+        return $query->where('type', '!=', '1');
+    }
 }

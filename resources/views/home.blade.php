@@ -14,17 +14,16 @@
                         @else
                             {!! Html::image('images/user_default.png', auth()->user()->name, ['style' => 'max-height: 250; width:100%']) !!}
                         @endif
+
                         <h2 align="center">{{ auth()->user()->name }}</h2>
                         <h4 align="center">{{ auth()->user()->email }}</h4>
-                        <h5 align="center">Learned {{ $words }} Words</h5>
-                        <h5 align="center">{{ $followers }} Followers</h5>
-                        <h5 align="center">{{ $following }} Following</h5>
+                        @if(!auth()->user()->isAdmin())
+                            <h5 align=center>{{ link_to_route('words.search', 'Learned'.$followers.' Words', $parameters = array('status' => 'learned'), null) }}</h5>
+                            <h5 align=center>{{ link_to_route('users.search', $followers.' Followers', $parameters = array('t' => 'FRS'), null) }}</h5>
+                            <h5 align=center>{{ link_to_route('users.search', $following.' Following', $parameters = array('t' => 'FNG'), null) }}</h5>
+                        @endif
                     </div>
                     <div class="col-md-9">
-                        <a href="/words" class="btn btn-default btn-lg" role="button">Word</a>
-                        @if(!auth()->user()->isAdmin())
-                        <a href="/lessons" class="btn btn-default btn-lg" role="button">Lesson</a>
-                        @endif
                         <h2>Activities</h2>
                         <hr>
                         @if (count($activities) > 0)

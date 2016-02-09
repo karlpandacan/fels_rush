@@ -20,9 +20,6 @@
                             <h5 align="center">{{ $following }} Following</h5>
                             @if(auth()->user()->isAdmin())
                                 <p>
-                                    <a href="{{ url('users/create') }}" class="btn btn-primary">Add User</a>
-                                </p>
-                                <p>
                                     {!! Form::open(['method' => 'delete', 'route' => ['users.destroy', $user->id]]) !!}
                                     {!! Form::submit('Delete User', ['class' => 'btn btn-danger']) !!}
                                     {!! Form::close() !!}

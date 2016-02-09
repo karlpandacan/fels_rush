@@ -109,12 +109,17 @@ class UserController extends Controller
     public function search(Request $request)
     {
         $wildcard = $request->q;
+        $tab = isset($request->t) ? $request->t : 'NF';
         $user = auth()->user();
         $followingIds = $user->followers()->lists('follows.follower_id');
         $followingIds->push($user->id);
-        $usersNotFollowing = User::ofNotIds($followingIds)->findUser($wildcard)->get();
-        $usersFollowing = $user->followers()->findUser($wildcard)->get();
+        $usersNotFollowing = User::ofNotIds($followingIds)->findUser($wildcard)->notAdmin()->get();
+        $usersFollowing = $user->followers()->findUser($wildcard)->notAdmin()->get();
+        $usersFollowers = $user->followees()->findUser($wildcard)->notAdmin()->get();
+//        dd($tab);
         return view('users.search')
+            ->with('tab', $tab)
+            ->with('usersFollowers', $usersFollowers)
             ->with('usersFollowing', $usersFollowing)
             ->with('usersNotFollowing', $usersNotFollowing);
     }

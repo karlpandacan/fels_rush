@@ -15,12 +15,8 @@
         "mockery/mockery": "0.9.*",
         "phpunit/phpunit": "~4.0",
         "symfony/css-selector": "2.8.*|3.0.*",
-<<<<<<< HEAD
         "symfony/dom-crawler": "2.8.*|3.0.*",
         "squizlabs/php_codesniffer": "*"
-=======
-        "symfony/dom-crawler": "2.8.*|3.0.*"
->>>>>>> 2021015f342a464ca693071cb9bad6c7bf412c00
     },
     "autoload": {
         "classmap": [

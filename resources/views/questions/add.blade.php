@@ -47,7 +47,7 @@
 
                                 <div class="form-group">
                                     <div class="row">
-                                        <div class="col-xs-1">
+                                        <div class="col-xs-2">
                                             {!! Form::submit('Save', ['class' => 'btn btn-primary']) !!}
                                         </div>
                                         <div class="col-xs-2">

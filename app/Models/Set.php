@@ -23,6 +23,11 @@ class Set extends Model
         return $this->belongsTo(Category::class);
     }
 
+    public function words()
+    {
+        return $this->hasMany(Word::class);
+    }
+
     public function lessons()
     {
         return $this->hasMany(Lesson::class);

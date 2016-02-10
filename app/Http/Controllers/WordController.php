@@ -43,15 +43,19 @@ class WordController extends Controller
 
     public function store(Request $request)
     {
+        session::keep('set_id');
+        $setId = session('set_id');
+        // auth()->user()->sets()->find($setId)->words->first()->storeWords($request, $setId);
+
         try {
             $word = new Word;
-            $word->assignValues($request);
+            $word->storeWords($request, $setId);
             session()->flash('flash_success', 'Adding of word successful!');
         } catch (Exception $e) {
             session()->flash('flash_error', 'Adding of word failed.');
         }
 
-        return redirect('/words');
+        return redirect('sets');
     }
 
     public function show()

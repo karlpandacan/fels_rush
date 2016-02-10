@@ -9,7 +9,7 @@
                     <div class="panel-heading">Add Questions for set: <b>{{ $set->name }}</b></div>
                     <div class="panel-body">
                         <div class="col-md-10">
-                            {!! Form::open(['method' => 'post', 'route' => 'categories.store', 'files' => 'true']) !!}
+                            {!! Form::open(['method' => 'post', 'route' => 'words.store', 'files' => 'true']) !!}
                                 {{ Form::hidden('set_id', $set->id) }}
                                 <div class="form-group">
                                     @for($i = 0; $i < 4; $i++)

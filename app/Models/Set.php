@@ -6,7 +6,7 @@ use Illuminate\Database\Eloquent\Model;
 
 class Set extends Model
 {
-    protected $fillable = ['category_id', 'used_id', 'name', 'description', 'image'];
+    protected $fillable = ['category_id', 'user_id', 'name', 'description', 'image'];
 
     public function user()
     {
@@ -31,6 +31,8 @@ class Set extends Model
     public function assignValues($values)
     {
         $data = [
+            'category_id' => $values->input('set_category'),
+            'user_id' => $values->user_id,
             'name' => $values->input('set_name'),
             'description' => $values->input('set_desc')
         ];

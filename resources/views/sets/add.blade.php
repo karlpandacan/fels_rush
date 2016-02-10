@@ -6,6 +6,10 @@
 
         {!! Form::open(['method' => 'post', 'route' => 'sets.store', 'files' => 'true']) !!}
         <div class="form-group">
+            {!! Form::label('set_category', 'Category') !!}
+            {!! Form::select('set_category', $categories, null,['class' => 'form-control']) !!}
+        </div>
+        <div class="form-group">
             {!! Form::label('set_name', 'Name') !!}
             {!! Form::text('set_name', null, ['class' => 'form-control']) !!}
         </div>

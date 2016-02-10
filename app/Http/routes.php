@@ -48,7 +48,7 @@ Route::group(['middleware' => 'web'], function () {
     Route::resource('words', 'WordController');
     Route::resource('follows', 'FollowController');
     Route::resource('lessons', 'LessonController');
-    Route::resource('lesson_words', 'LessonWordController');
+    Route::resource('questions', 'LessonWordController');
 
     Route::get('/exams', [
         'as' => 'exams',

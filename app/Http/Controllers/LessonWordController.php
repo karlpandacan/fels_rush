@@ -61,7 +61,10 @@ class LessonWordController extends Controller
 
     public function create(Request $request)
     {
-        return $this->store($request);
+        Session::keep('set_id');
+        $set = auth()->user()->sets()->find(session('set_id'));
+        return view('questions.add', ['set' => $set]);
+        // return $this->store($request);
     }
 
     /*

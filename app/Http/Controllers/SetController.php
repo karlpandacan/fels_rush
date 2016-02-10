@@ -7,7 +7,9 @@ use Illuminate\Http\Request;
 use App\Http\Requests;
 use App\Http\Controllers\Controller;
 use App\Models\Set;
+use App\Models\Category;
 use Auth;
+use Session;
 
 class SetController extends Controller
 {
@@ -18,19 +20,22 @@ class SetController extends Controller
 
     public function index()
     {
-        return view('sets.home');
+        return view('sets.home', ['sets' => auth()->user()->sets]);
     }
 
     public function create()
     {
-        return view('sets.add');
+        return view('sets.add', ['categories' => Category::first()->listCategories()]);
     }
 
     public function store(Request $request)
     {
-        return dd(auth()->user()->sets()->assignValues($request));
-        auth()->user()->sets->assignValues($request);
-        return redirect('sets');
+        $set = new Set;
+        $request->request->add(['user_id' => auth()->id()]);
+        $set->assignValues($request);
+        Session::flash('set_id', auth()->user()->sets->last()->id);
+
+        return redirect('questions/create');
     }
 
     public function show()

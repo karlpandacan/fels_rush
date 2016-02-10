@@ -8,9 +8,9 @@ class Word extends Model
 {
     protected $fillable = ['category_id', 'word_original', 'word_translated', 'sound_file'];
 
-    public function category()
+    public function set()
     {
-        return $this->belongsTo(Category::class);
+        return $this->belongsTo(Set::class);
     }
 
     public function learnedWords()
@@ -21,6 +21,24 @@ class Word extends Model
     public function lessonWords()
     {
         return $this->hasMany(LessonWord::class);
+    }
+
+    public static function storeWords($values, $setId)
+    {
+        $wordsToInsert = [];
+
+        // Do not include empty values
+        foreach($values->word_original as $index => $value) {
+            if(!empty($value)) {
+                $wordsToInsert[] = [
+                    'set_id' => $setId,
+                    'word_original' => $values->word_original[$index],
+                    'word_translated' => $values->word_translated[$index]
+                ];
+            }
+        }
+
+        Word::insert($wordsToInsert);
     }
 
     public function assignValues($values)

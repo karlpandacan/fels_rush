@@ -13,6 +13,7 @@ use App\Models\Word;
 use App\Models\Activity;
 use Session;
 use Exception;
+use Eloquent;
 
 class LessonWordController extends Controller
 {
@@ -72,20 +73,23 @@ class LessonWordController extends Controller
      */
     public function store(Request $request)
     {
-        $lessonWord = new LessonWord;
-        try {
-            if($lessonWord->generateLessonWords($request, auth()->user()) != false) {
-                $lessonId = $lessonWord->getLastLessonId(auth()->id());
-                session()->flash('lessonId', $lessonId); // Flash the lesson id into the session
+        Session::keep('set_id');
+        // auth()->user()->sets()->find(session('set_id'))->words->storeWords($request, session('set_id'));
+        exit;
+        // $lessonWord = new LessonWord;
+        // try {
+        //     if($lessonWord->generateLessonWords($request, auth()->user()) != false) {
+        //         $lessonId = $lessonWord->getLastLessonId(auth()->id());
+        //         session()->flash('lessonId', $lessonId); // Flash the lesson id into the session
 
-                return redirect('exams'); // Redirect user to the exam page
-            }
-        } catch(Exception $e) {
-            session()->flash('flash_error',
-                'Lesson generation failed. Please try again later.');
-        }
+        //         return redirect('exams'); // Redirect user to the exam page
+        //     }
+        // } catch(Exception $e) {
+        //     session()->flash('flash_error',
+        //         'Lesson generation failed. Please try again later.');
+        // }
 
-        return redirect('lessons');
+        return redirect('sets');
     }
 
     public function show()

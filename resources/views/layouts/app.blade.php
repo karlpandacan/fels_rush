@@ -15,7 +15,6 @@
         {{-- <link href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/css/bootstrap.min.css" rel="stylesheet"> --}}
         {{-- <link href="{{ elixir('css/app.css') }}" rel="stylesheet"> --}}
         <link href="{{ url('css/theme.min.css') }}" rel="stylesheet">
-        {{-- 097054  FFDE00  6599FF  FF9900 --}}
         <style>
             body {
                 font-family: 'Lato';
@@ -28,7 +27,6 @@
                 text-decoration: none;
             }
         </style>
-        
     </head>
     <body id="app-layout">
         <nav class="navbar navbar-default navbar-fixed-top">

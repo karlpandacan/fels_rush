@@ -27,11 +27,11 @@
                                 @endif
                             </div>
                             <div class="row col-md-3">
-                                    {{ $result->word->word_japanese }}
+                                    {{ $result->word->word_original }}
                             </div>
                             <div class="row col-md-3">
-                                @if(isset($result->wordAnswered->word_vietnamese))
-                                    {{ $result->wordAnswered->word_vietnamese }}
+                                @if(isset($result->wordAnswered->word_translated))
+                                    {{ $result->wordAnswered->word_translated }}
                                 @else
                                     -- NO ANSWER --
                                 @endif

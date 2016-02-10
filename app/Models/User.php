@@ -53,6 +53,11 @@ class User extends Authenticatable
             'followee_id');
     }
 
+    public function sets()
+    {
+        return $this->hasMany(Set::class);
+    }
+
     public function lessons()
     {
         return $this->hasMany(Lesson::class);

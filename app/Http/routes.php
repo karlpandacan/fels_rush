@@ -63,4 +63,5 @@ Route::group(['middleware' => 'web'], function () {
     Route::get('/results', 'LessonWordController@index');
     Route::get('/results/{lessonId}', 'LessonController@show');
     Route::get('/results/save/{lessonId}', 'LessonController@storeActivity');
+    Route::resource('/sets', 'SetController');
 });

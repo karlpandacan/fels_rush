@@ -22,12 +22,12 @@
                                     {!! Form::hidden('word_id', $word->id) !!}
                                 </div>
                                 <div class="form-group">
-                                    {!! Form::label('word_japanese', 'Word Original') !!}
-                                    {!! Form::text('word_japanese', $word->word_japanese, ['class' => 'form-control', 'placeholder' => 'Original Word']) !!}
+                                    {!! Form::label('word_original', 'Word Original') !!}
+                                    {!! Form::text('word_original', $word->word_original, ['class' => 'form-control', 'placeholder' => 'Original Word']) !!}
                                 </div>
                                 <div class="form-group">
-                                    {!! Form::label('word_vietnamese', 'Word Translated') !!}
-                                    {!! Form::text('word_vietnamese', $word->word_vietnamese, ['class' => 'form-control', 'placeholder' => 'Translated Word']) !!}
+                                    {!! Form::label('word_translated', 'Word Translated') !!}
+                                    {!! Form::text('word_translated', $word->word_translated, ['class' => 'form-control', 'placeholder' => 'Translated Word']) !!}
                                 </div>
                                 <div class="form-group">
                                     @if(!empty($word->sound_file))

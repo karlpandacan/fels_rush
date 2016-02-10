@@ -14,12 +14,12 @@
                                     {!! Form::select('word_category', $categories, null,['class' => 'form-control']) !!}
                                 </div>
                                 <div class="form-group">
-                                    {!! Form::label('word_japanese', 'Word Original') !!}
-                                    {!! Form::text('word_japanese', null, ['class' => 'form-control', 'placeholder' => 'Original Word']) !!}
+                                    {!! Form::label('word_original', 'Word Original') !!}
+                                    {!! Form::text('word_original', null, ['class' => 'form-control', 'placeholder' => 'Original Word']) !!}
                                 </div>
                                 <div class="form-group">
-                                    {!! Form::label('word_vietnamese', 'Word Translated') !!}
-                                    {!! Form::text('word_vietnamese', null, ['class' => 'form-control', 'placeholder' => 'Translated Word']) !!}
+                                    {!! Form::label('word_translated', 'Word Translated') !!}
+                                    {!! Form::text('word_translated', null, ['class' => 'form-control', 'placeholder' => 'Translated Word']) !!}
                                 </div>
                                 <div class="form-group">
                                     {!! Form::file('sound_file') !!}

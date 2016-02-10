@@ -6,7 +6,7 @@ use Illuminate\Database\Eloquent\Model;
 
 class Word extends Model
 {
-    protected $fillable = ['category_id', 'word_japanese', 'word_vietnamese', 'sound_file'];
+    protected $fillable = ['category_id', 'word_original', 'word_translated', 'sound_file'];
 
     public function category()
     {
@@ -27,8 +27,8 @@ class Word extends Model
     {
         $data = [
             'category_id' => $values->input('word_category'),
-            'word_japanese' => $values->input('word_japanese'),
-            'word_vietnamese' => $values->input('word_vietnamese')
+            'word_original' => $values->input('word_original'),
+            'word_translated' => $values->input('word_translated')
         ];
 
         if(!empty($values->file('sound_file'))) {
@@ -54,7 +54,7 @@ class Word extends Model
 
     public function scopeSelectWords($query)
     {
-        return $query->select('id', 'word_japanese', 'word_vietnamese');
+        return $query->select('id', 'word_original', 'word_translated');
     }
 
     private function saveSound($data, $values)

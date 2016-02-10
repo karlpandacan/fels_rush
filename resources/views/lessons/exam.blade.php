@@ -10,7 +10,7 @@
                     <div class="row">
                         <div class="col-md-10">
                             <div class="col-md-6">
-                                <b><h1>{{ $questions[\Session::get('questionIndex')]->word->word_japanese }}</h1><b>
+                                <b><h1>{{ $questions[\Session::get('questionIndex')]->word->word_original }}</h1><b>
                                 <p>
                                     <audio controls>
                                         <source src="">
@@ -23,7 +23,7 @@
                                         {!! Form::hidden('word_answer_id', $option['id']) !!}
                                         {!! Form::hidden('lesson_word_id',
                                             $questions[\Session::get('questionIndex')]->id) !!}
-                                        {!! Form::submit($option['word_vietnamese'], [
+                                        {!! Form::submit($option['word_translated'], [
                                                 'class' => 'btn btn-default btn-block'
                                             ]) !!}
                                     {!! Form::close() !!}

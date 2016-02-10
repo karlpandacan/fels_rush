@@ -8,14 +8,14 @@ class Category extends Model
 {
     protected $fillable = ['name', 'image', 'description'];
 
-    public function lessons()
+    public function sets()
     {
-        return $this->hasMany(Lesson::class);
+        return $this->hasMany(Set::class);
     }
 
-    public function words()
+    public function lessons()
     {
-        return $this->hasMany(Word::class, 'category_id');
+        return $this->hasManyThrough(Lesson::class, Set::class);
     }
 
     public function assignValues($values)

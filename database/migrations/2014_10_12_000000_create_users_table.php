@@ -20,6 +20,7 @@ class CreateUsersTable extends Migration
             $table->string('avatar', 60)->nullable();
             $table->tinyInteger('type')->default('0');
             $table->rememberToken();
+            $table->softDeletes();
             $table->timestamps();
         });
     }

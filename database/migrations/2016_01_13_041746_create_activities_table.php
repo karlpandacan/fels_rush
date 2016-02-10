@@ -17,11 +17,18 @@ class CreateActivitiesTable extends Migration
             $table->integer('user_id')->unsigned()->index();
             $table->integer('lesson_id')->unsigned()->index();
             $table->mediumText('content');
-            $table->tinyInteger('activity_type');
+            $table->enum('activity_type', [
+                'exam_taken',
+                'followed_user',
+                'unfollowed_user',
+                'lesson_created',
+                'lesson_updated',
+                'lesson_deleted'
+            ]);
             $table->timestamps();
         });
     }
-    
+
     /**
      * Reverse the migrations.
      *

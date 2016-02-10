@@ -22,4 +22,9 @@ class Activity extends Model
     {
         return $query->whereIn('user_id', $ids);
     }
+
+    public function scopeFollowActivities($query){
+        return $query->where('activity_type', 'unfollowed_user')
+            ->orWhere('activity_type', 'followed_user');
+    }
 }

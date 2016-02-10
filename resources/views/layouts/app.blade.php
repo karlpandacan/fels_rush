@@ -8,12 +8,10 @@
         <title>Framgia E-Learning System - @yield('title')</title>
 
         <!-- Fonts -->
-        <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.4.0/css/font-awesome.min.css" rel='stylesheet' type='text/css'>
-        <link href="https://fonts.googleapis.com/css?family=Lato:100,300,400,700" rel='stylesheet' type='text/css'>
+        <link href="{{ url('css/font-awesome.min.css') }}" rel='stylesheet' type='text/css'>
+        <link href="{{ url('css/font.css') }}" rel='stylesheet' type='text/css'>
 
         <!-- Styles -->
-        {{-- <link href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/css/bootstrap.min.css" rel="stylesheet"> --}}
-        {{-- <link href="{{ elixir('css/app.css') }}" rel="stylesheet"> --}}
         <link href="{{ url('css/app.css') }}" rel="stylesheet">
         <style>
             body {
@@ -30,7 +28,7 @@
     </head>
     <body id="app-layout">
         <nav class="navbar navbar-default navbar-fixed-top">
-            <div class="container-fluid">
+            <div class="container">
                  <div class="navbar-header">
                     <!-- Collapsed Hamburger -->
                     <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#app-navbar-collapse">
@@ -53,6 +51,7 @@
                         @if (!auth()->guest())
                                 <li class="{{ Request::is('users*') ? 'active' : '' }}"><a href="{{ url('/users') }}">Users</a></li>
                             @if(!auth()->user()->isAdmin())
+                                <li class="{{ Request::is('studies*') ? 'active' : '' }}"><a href="{{ url('/studies') }}">Studying</a></li>
                                 <li class="{{ Request::is('sets*') ? 'active' : '' }}"><a href="{{ url('/sets') }}">Sets</a></li>
                             @endif
                             @if(auth()->user()->isAdmin())
@@ -92,14 +91,14 @@
                 </div>
             </div>
         </nav>
-        <div class="container" style="margin-top:50px;">
+        <div class="container" style="margin-top:60px;">
             <div class="row">
                 @yield('content')
             </div>
         </div>
         <!-- JavaScripts -->
-        <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/2.1.4/jquery.min.js"></script>
-        <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/js/bootstrap.min.js"></script>
+        <script src="{{ url('js/jquery-2.2.0.min.js') }}"></script>
+        <script src="{{ url('js/bootstrap.min.js') }}"></script>
         {{-- <script src="{{ elixir('js/app.js') }}"></script> --}}
     </body>
 </html>

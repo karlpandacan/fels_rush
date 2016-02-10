@@ -73,6 +73,10 @@ class User extends Authenticatable
         return $this->hasMany(Activity::class);
     }
 
+    public function studies(){
+        return $this->belongsToMany(Set::class, 'studies', 'user_id', 'set_id');
+    }
+
     public function uploadImage($request)
     {
         if ($request->hasFile('image')) {

@@ -13,6 +13,11 @@ class Set extends Model
         return $this->belongsTo(User::class);
     }
 
+    public function users()
+    {
+        return $this->belongsToMany(User::class, 'studies', 'set_id', 'user_id');
+    }
+
     public function category()
     {
         return $this->belongsTo(Category::class);

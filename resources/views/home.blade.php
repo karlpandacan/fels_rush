@@ -5,7 +5,7 @@
 @section('content')
     @include('layouts.user')
     <div class="col-sm-9 text-left">
-        <div class="panel panel-default">
+        <div class="panel panel-info">
             <div class="panel-body">
                 <h2>Activities</h2>
                 <hr>

@@ -12,9 +12,10 @@
         <link href="https://fonts.googleapis.com/css?family=Lato:100,300,400,700" rel='stylesheet' type='text/css'>
 
         <!-- Styles -->
-        <link href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/css/bootstrap.min.css" rel="stylesheet">
+        {{-- <link href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/css/bootstrap.min.css" rel="stylesheet"> --}}
         {{-- <link href="{{ elixir('css/app.css') }}" rel="stylesheet"> --}}
-
+        <link href="{{ url('css/theme.min.css') }}" rel="stylesheet">
+        {{-- 097054  FFDE00  6599FF  FF9900 --}}
         <style>
             body {
                 font-family: 'Lato';
@@ -27,9 +28,10 @@
                 text-decoration: none;
             }
         </style>
+        
     </head>
     <body id="app-layout">
-        <nav class="navbar navbar-inverse navbar-fixed-top">
+        <nav class="navbar navbar-default navbar-fixed-top">
             <div class="container-fluid">
                  <div class="navbar-header">
                     <!-- Collapsed Hamburger -->
@@ -52,16 +54,14 @@
                         <li class="{{ Request::is('home') ? 'active' : '' }}"><a href="{{ url('/home') }}">Home</a></li>
                         @if (!auth()->guest())
                                 <li class="{{ Request::is('users*') ? 'active' : '' }}"><a href="{{ url('/users') }}">Users</a></li>
-                                <li class="{{ Request::is('words*') ? 'active' : '' }}"><a href="{{ url('/words') }}">Words</a></li>
                             @if(!auth()->user()->isAdmin())
-                                <li class="{{ Request::is('lessons*') ? 'active' : '' }}"><a href="{{ url('/lessons') }}">Lessons</a></li>
+                                <li class="{{ Request::is('sets*') ? 'active' : '' }}"><a href="{{ url('/sets') }}">Sets</a></li>
                             @endif
                             @if(auth()->user()->isAdmin())
                                  <li class="{{ Request::is('categories*') ? 'active' : '' }}"><a href="{{ url('/categories') }}">Categories</a></li>
                             @endif
                         @endif
                     </ul>
-
                     <!-- Right Side Of Navbar -->
                     <ul class="nav navbar-nav navbar-right">
                         <!-- Authentication Links -->
@@ -94,7 +94,7 @@
                 </div>
             </div>
         </nav>
-        <div class="container" style="margin-top:80px;">
+        <div class="container" style="margin-top:50px;">
             <div class="row">
                 @yield('content')
             </div>

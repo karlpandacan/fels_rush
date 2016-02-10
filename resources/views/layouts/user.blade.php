@@ -1,5 +1,5 @@
 <div class="col-sm-3">
-    <div class="panel panel-default">
+    <div class="panel panel-info">
         <div class="panel-body">
             <div class="row">
                 <div class="col-xs-4">

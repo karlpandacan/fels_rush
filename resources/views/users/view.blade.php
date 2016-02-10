@@ -10,7 +10,7 @@
         </p>
     @endif
     <div class="col-sm-9 text-left">
-        <div class="panel panel-default">
+        <div class="panel panel-primary">
             <div class="panel-body">
                 <div class="row">
                     <div class="col-xs-3 text-right">

@@ -1,3 +1,4 @@
+<script src="/js/functions.js"></script>
 @extends('layouts.app')
 
 @section('content')
@@ -9,16 +10,17 @@
                     <div class="panel-body">
                         <div class="col-md-10">
                             {!! Form::open(['method' => 'post', 'route' => 'categories.store', 'files' => 'true']) !!}
+                                {{ Form::hidden('set_id', $set->id) }}
                                 <div class="form-group">
                                     @for($i = 0; $i < 4; $i++)
                                     <div class="row">
                                         <div class="col-xs-5">
-                                            {!! Form::label('category_name', 'Original Word') !!}
-                                            {!! Form::text('category_name', null, ['class' => 'form-control']) !!}
+                                            {!! Form::label('word_original', 'Original Word') !!}
+                                            {!! Form::text('word_original[]', null, ['class' => 'form-control']) !!}
                                         </div>
                                         <div class="col-xs-5">
-                                            {!! Form::label('category_name', 'Translated Word') !!}
-                                            {!! Form::text('category_name', null, ['class' => 'form-control']) !!}
+                                            {!! Form::label('word_translated', 'Translated Word') !!}
+                                            {!! Form::text('word_translated[]', null, ['class' => 'form-control']) !!}
                                         </div>
                                         <div class="col-xs-1">
                                             {!! Form::label(null, 'Remove') !!}
@@ -36,7 +38,7 @@
                                             <div class="col-md-2">
                                                 {!! Form::button(' Add Option', [
                                                     'class' => 'glyphicon glyphicon-plus btn btn-success',
-                                                    'onclick' => 'cloneRow(this);'
+                                                    'onclick' => 'cloneRow();'
                                                 ]) !!}
                                             </div>
                                         </div>

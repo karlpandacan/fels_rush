@@ -27,13 +27,13 @@
                         @foreach($words as $word)
                             <div class="row">
                                 <div class="col-xs-3">
-                                    {{ $word->word_japanese }}
+                                    {{ $word->word_original }}
                                 </div>
                                 <div class="col-xs-1">
                                     :
                                 </div>
                                 <div class="col-xs-4">
-                                    {{ $word->word_vietnamese }}
+                                    {{ $word->word_translated }}
                                 </div>
                                 <div class="col-xs-2">
                                     @if(auth()->user()->isAdmin())

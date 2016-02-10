@@ -13,9 +13,9 @@ class Lesson extends Model
         return $this->belongsTo(User::class);
     }
 
-    public function category()
+    public function set()
     {
-        return $this->belongsTo(Category::class);
+        return $this->belongsTo(Set::class);
     }
 
     public function lessonWords()

@@ -61,7 +61,10 @@ class LessonWordController extends Controller
 
     public function create(Request $request)
     {
-        return $this->store($request);
+        Session::keep('set_id');
+        $set = auth()->user()->sets()->find(session('set_id'));
+        return view('questions.add', ['set' => $set]);
+        // return $this->store($request);
     }
 
     /*
@@ -137,8 +140,8 @@ class LessonWordController extends Controller
                 if($i == $indexForAnswer) {
                     $generatedOptions[] = [
                         'id' => $lessonWord[session('questionIndex')]->word->id,
-                        'word_japanese' => $lessonWord[session('questionIndex')]->word->word_japanese,
-                        'word_vietnamese' => $lessonWord[session('questionIndex')]->word->word_vietnamese
+                        'word_original' => $lessonWord[session('questionIndex')]->word->word_original,
+                        'word_translated' => $lessonWord[session('questionIndex')]->word->word_translated
                     ];
                 } else {
                     do {
@@ -148,7 +151,7 @@ class LessonWordController extends Controller
                         );
                     $generatedOptions[] = [
                         'id' => $words[$optionIndex]['id'],
-                        'word_vietnamese' => $words[$optionIndex]['word_vietnamese']
+                        'word_translated' => $words[$optionIndex]['word_translated']
                     ];
                     $usedWordIds[] = $words[$optionIndex]['id'];
                     // unset($words[$optionIndex]);

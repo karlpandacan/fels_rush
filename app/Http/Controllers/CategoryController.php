@@ -7,7 +7,6 @@ use Illuminate\Http\Request;
 use App\Http\Requests;
 use App\Http\Controllers\Controller;
 use App\Models\Category;
-use App\User;
 use Illuminate\Database\Eloquent\ModelNotFoundException;
 use Session;
 use Exception;

@@ -14,9 +14,9 @@ class CreateWordsTable extends Migration
     {
         Schema::create('words', function (Blueprint $table) {
             $table->increments('id');
-            $table->integer('category_id')->unsigned()->index();
-            $table->string('word_japanese', 255);
-            $table->string('word_vietnamese', 255);
+            $table->integer('set_id')->unsigned()->index();
+            $table->string('word_original', 255);
+            $table->string('word_translated', 255);
             $table->string('sound_file', 255)->nullable();
             $table->timestamps();
         });

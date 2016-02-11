@@ -3,7 +3,14 @@
 @section('title', 'Home')
 
 @section('content')
-    @include('layouts.user')
+    <div class="col-sm-3">
+        <div class="row">
+            @include('layouts.user')
+        </div>
+        <div class="row">
+            @include('layouts.feed')
+        </div>
+    </div>
     <div class="col-sm-9 text-left">
         <div class="panel panel-info">
             <div class="panel-body">

@@ -3,10 +3,14 @@
 namespace App\Models;
 
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Database\Eloquent\SoftDeletes;
+use DB;
 
 class Set extends Model
 {
-    protected $fillable = ['category_id', 'user_id', 'name', 'description', 'image'];
+    use SoftDeletes;
+    protected $fillable = ['category_id', 'visible_to', 'user_id', 'name', 'description', 'image'];
+    protected $dates = ['deleted_at'];
 
     public function user()
     {
@@ -42,6 +46,7 @@ class Set extends Model
     {
         $data = [
             'category_id' => $values->input('set_category'),
+            'visible_to' => $values->input('set_visibility'),
             'user_id' => $values->user_id,
             'name' => $values->input('set_name'),
             'description' => $values->input('set_desc')
@@ -66,7 +71,7 @@ class Set extends Model
         }
 
         $values->file('set_image')->move(base_path() . '/public/images/sets/', $imageName);
-        $data['image'] = $imageName;
+        $data['set_image'] = $imageName;
 
         return $data;
     }

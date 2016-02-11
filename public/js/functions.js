@@ -1,34 +1,30 @@
+/*
+ * Question creation
+ */
 function cloneRow()
 {
-    addButton = document.querySelectorAll('.btn-success')[0];
-    addButton = addButton.parentNode.parentNode.parentNode;
-    addButtonClone = addButton.cloneNode(true);
+    addButton = $('.btn-success').eq(0);
 
     rows = getRows();
-    rowOriginal = rows[0].parentNode.parentNode;
-    rowClone = rowOriginal.cloneNode(true);
+    rowOriginal = rows.eq(0).parent().parent();
+    rowClone = rowOriginal.clone(true);
     // Clear row values
-    rowCloneValues = rowClone.querySelectorAll('input[type=text]');
-    rowCloneValues[0].value = null;
-    rowCloneValues[1].value = null;
+    rowClone.find('input[type=text]').val(null);
     // Append to HTML
-    rowOriginal.parentNode.appendChild(rowClone);
-    // Remove button then add it again to keep button at the bottom of the form
-    addButton.remove();
-    rowClone.parentNode.appendChild(addButtonClone);
+    rowClone.insertBefore(addButton.parent().parent());
 
     countRows();
 }
 
 function removeRow(row)
 {
-    row.parentNode.parentNode.remove();
+    $(row).parent().parent().remove();
     countRows();
 }
 
 function countRows()
 {
-    rows = document.querySelectorAll('.glyphicon-minus');
+    rows = $('.glyphicon-minus');
 
     if(rows.length < 2) {
         rows[0].setAttribute('disabled', null);
@@ -45,5 +41,20 @@ function countRows()
 
 function getRows()
 {
-    return document.querySelectorAll('input[name="word_original[]"');
+    return $('input[name="word_original[]"');
+}
+
+/*
+ * Set Deletion
+ */
+function confirmSetDelete(button, e)
+{
+    form = $(button).parent();
+
+    e.preventDefault();
+
+    if(confirm('Are you sure you want to delete this set?')) {
+        form.submit();
+    }
+
 }

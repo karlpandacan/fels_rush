@@ -154,10 +154,18 @@ class SetController extends Controller
         if(isset($request->category) and $request->category != 'all') {
             $setsIni = $setsIni->where('category_id', $request->category);
         }
-        $setsIni = $setsIni
-            ->availableSets($followingIds, $user->id)
-            ->latest()
-            ->paginate(10);
+
+        if($user->isAdmin()) {
+            $setsIni = $setsIni
+                ->latest()
+                ->paginate(10);
+        }else {
+            $setsIni = $setsIni
+                ->availableSets($followingIds, $user->id)
+                ->latest()
+                ->paginate(10);
+        }
+
         $sets = $setsIni;
         $categories = Category::lists('name', 'id');
         $categories['all'] = 'All';

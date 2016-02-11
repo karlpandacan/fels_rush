@@ -70,7 +70,7 @@
                             @if(!auth()->user()->isAdmin())
                                 <li class="{{ Request::is('studies*') ? 'active' : '' }}"><a href="{{ url('/studies') }}">Studying</a></li>
                                 <li class="dropdown-toggle {{ Request::is('sets*') ? 'active' : '' }}">
-                                    <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">Sets<span class="caret"></span></a>
+                                    <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">Sets <span class="caret"></span></a>
                                     <ul class="dropdown-menu">
                                         <li><a href="{{ url('/sets/create') }}">Create New Set</a></li>
                                         <li><a href="{{ url('/sets') }}">My Sets</a></li>

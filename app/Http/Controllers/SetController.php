@@ -21,7 +21,7 @@ class SetController extends Controller
 
     public function index()
     {
-        return view('sets.home', ['sets' => auth()->user()->sets]);
+        return view('sets.home', ['sets' => auth()->user()->sets()->with('words')->paginate(6)]);
     }
 
     public function create()

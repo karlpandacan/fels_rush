@@ -10,6 +10,7 @@ use App\Models\LessonWord;
 use App\Models\LearnedWord;
 use App\Models\Lesson;
 use App\Models\Word;
+use App\Models\Set;
 use App\Models\Activity;
 use Session;
 use Exception;
@@ -99,7 +100,13 @@ class LessonWordController extends Controller
 
     public function edit(Request $request, $id)
     {
-        $set = auth()->user()->sets()->find($id);
+        $user = auth()->user();
+        if($user->isAdmin()) {
+            $set = Set::find($id);
+        } else {
+            $set = auth()->user()->sets()->find($id);    
+        }
+        
         return view('questions.edit', ['set' => $set, 'words' => $set->words]);
     }
 

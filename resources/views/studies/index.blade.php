@@ -23,7 +23,7 @@
                                 <td class="col-xs-1 text-right">
                                     {{ Form::open(['method' => 'delete', 'route' => ['studies.destroy', $set->id]]) }}
                                         {!! Form::hidden('sid', $set->id), null !!}
-                                        {!! Form::submit('Unstudy', ['class' => 'btn btn-primary']) !!}
+                                        {!! Form::submit('Unstudy', ['class' => 'btn btn-warning']) !!}
                                     {{ Form::close() }}
                                 </td>
                                 <td class="col-xs-1 text-right">

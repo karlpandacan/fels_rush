@@ -9,7 +9,7 @@ use DB;
 class Set extends Model
 {
     use SoftDeletes;
-    protected $fillable = ['category_id', 'visible_to', 'user_id', 'name', 'description', 'image'];
+    protected $fillable = ['category_id', 'visible_to', 'user_id', 'recommended', 'name', 'description', 'image'];
     protected $dates = ['deleted_at'];
 
     public function user()

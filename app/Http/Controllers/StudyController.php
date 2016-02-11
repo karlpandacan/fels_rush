@@ -7,6 +7,7 @@ use Illuminate\Http\Request;
 
 use App\Http\Requests;
 use App\Models\Activity;
+use App\Models\Set;
 use App\Http\Controllers\Controller;
 
 class StudyController extends Controller
@@ -24,24 +25,27 @@ class StudyController extends Controller
      */
     public function index(Request $request)
     {
-        $sets = auth()->user()->sets()
-            ->userFollowedSets(auth()->user())
+        $user = auth()->user();
+        $sets = Set::userFollowedSets($user)
             ->where('name', 'LIKE', '%'.$request->q.'%')
             ->paginate(15);
-        // $sets = auth()->user()->studies()->where('name', 'LIKE', '%'.$request->q.'%')->paginate(15);
-        $learnedWords = auth()->user()->learnedWords()->count();
-        $followers = auth()->user()->followees()->notAdmin()->count();
-        $following = auth()->user()->followers()->notAdmin()->count();
-        $followingIds = auth()->user()->followers()->lists('follows.follower_id');
-        $followingIds->push(auth()->user()->id);
+        // $sets = $user->studies()->where('name', 'LIKE', '%'.$request->q.'%')->paginate(15);
+        $learnedWords = $user->learnedWords()->count();
+        $followers = $user->followees()->notAdmin()->count();
+        $following = $user->followers()->notAdmin()->count();
+        $followingIds = $user->followers()->lists('follows.follower_id');
+        $followingIds->push($user->id);
         $activitiesFollow = Activity::userIds($followingIds)->follow()->take(10)->latest()->get();
+        $recommendedSets = Set::where('recommended', 1)->paginate(5);
         return view('studies.index',[
             'sets' => $sets,
             'user' => auth()->user(),
             'followers' => $followers,
             'following' => $following,
             'learnedWords' => $learnedWords,
-            'activitiesFollow' => $activitiesFollow
+            'activitiesFollow' => $activitiesFollow,
+            'followed_sets' => $user->getSetsFollowed()->toArray(),
+            'recommendedSets' => $recommendedSets
         ]);
     }
 

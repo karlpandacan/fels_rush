@@ -64,6 +64,15 @@ Route::group(['middleware' => 'web'], function () {
     Route::get('/results', 'LessonWordController@index');
     Route::get('/results/{lessonId}', 'LessonController@show');
     Route::get('/results/save/{lessonId}', 'LessonController@storeActivity');
+
+    Route::get('sets/recommended', 'SetController@recommendedIndex');
+    Route::get('sets/storeRecommendation/{id}', [
+        'as' => 'recommendation.store', 'uses' => 'SetController@recommendationStore'
+    ]);
+    Route::get('sets/destroyRecommendation/{id}', [
+        'as' => 'recommendation.destroy', 'uses' => 'SetController@recommendationDestroy'
+    ]);
+
     Route::resource('sets', 'SetController');
     Route::resource('studies', 'StudyController');
 });

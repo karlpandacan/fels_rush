@@ -33,6 +33,34 @@ class SetController extends Controller
         }
     }
 
+    public function recommendedIndex()
+    {
+        $user = auth()->user();
+        if(!$user->isAdmin()) {
+            return view('sets.recommended', [
+                'followed_sets' => $user->getSetsFollowed()->toArray(),
+                'recommendedSets' => Set::where('recommended', 1)->with('user')->get()
+            ]);
+        }
+
+        return view('sets.admin-recommended', [
+            'sets' => Set::where('recommended', 0)->with('user')->get(),
+            'recommendedSets' => Set::where('recommended', 1)->with('user')->get()
+        ]);
+    }
+
+    public function recommendationStore($id)
+    {
+        Set::find($id)->update(['recommended' => 1]);
+        return redirect()->back();
+    }
+
+    public function recommendationDestroy($id)
+    {
+        Set::find($id)->update(['recommended' => 0]);
+        return redirect()->back();
+    }
+
     public function create()
     {
         return view('sets.add', [
@@ -91,13 +119,16 @@ class SetController extends Controller
 
     public function update(Request $request, $id)
     {
+        $user = auth()->user();
         $request->request->add([
-            'user_id' => auth()->id(),
+            'user_id' => $user->id,
             'set_id' => $id
         ]);
 
-        Set::find($id)->assignValues($request);
-        Session::flash('set_id', auth()->user()->sets->last()->id);
+        $set = Set::find($id)->assignValues($request);
+        if(!$user->isAdmin()) {
+            Session::flash('set_id', auth()->user()->sets->last()->id);
+        }
 
         return redirect('sets');
         // return redirect('questions/create');

@@ -97,9 +97,10 @@ class LessonWordController extends Controller
 
     }
 
-    public function edit()
+    public function edit(Request $request, $id)
     {
-
+        $set = auth()->user()->sets()->find($id);
+        return view('questions.edit', ['set' => $set, 'words' => $set->words]);
     }
 
     public function update(Request $request)

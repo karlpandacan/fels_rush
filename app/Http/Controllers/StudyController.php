@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\Category;
 use Illuminate\Http\Request;
 
 
@@ -26,21 +27,33 @@ class StudyController extends Controller
     public function index(Request $request)
     {
         $user = auth()->user();
-        $sets = Set::userFollowedSets($user)
-            ->where('name', 'LIKE', '%'.$request->q.'%')
-            ->paginate(15);
-        // $sets = $user->studies()->where('name', 'LIKE', '%'.$request->q.'%')->paginate(15);
         $learnedWords = $user->learnedWords()->count();
         $followers = $user->followees()->notAdmin()->count();
         $following = $user->followers()->notAdmin()->count();
         $followingIds = $user->followers()->lists('follows.follower_id');
         $followingIds->push($user->id);
         $activitiesFollow = Activity::userIds($followingIds)->follow()->take(10)->latest()->get();
-        $recommendedSets = Set::where('recommended', 1)->paginate(5);
+        $categories = Category::lists('name', 'id');
+        $categories['all'] = 'All';
+        $recommendedSets = Set::where('recommended', 1)->with('user')->paginate(5);
+        // Eloquent of sets
+        $setsIni = $user->studies()
+            ->availableSets($followingIds, $user->id)
+            ->where('name', 'LIKE', '%'.$request->q.'%');
+        if(isset($request->category) and $request->category != 'all') {
+            $setsIni = $setsIni->where('category_id', $request->category);
+        }
+        $setsIni = $setsIni->with('words')
+            ->latest()
+            ->paginate(10);
+        $sets = $setsIni;
         return view('studies.index',[
             'sets' => $sets,
             'user' => auth()->user(),
+            'wildcard' => $request->q,
+            'selectedCategory' => $request->category,
             'followers' => $followers,
+            'categories' => $categories,
             'following' => $following,
             'learnedWords' => $learnedWords,
             'activitiesFollow' => $activitiesFollow,

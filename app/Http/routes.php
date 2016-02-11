@@ -44,12 +44,6 @@ Route::group(['middleware' => 'web'], function () {
             'as' => 'users.update_password',
             'uses' => 'UserController@updatePassword'
         ]);
-    Route::resource('categories', 'CategoryController');
-    Route::resource('words', 'WordController');
-    Route::resource('follows', 'FollowController');
-    Route::resource('lessons', 'LessonController');
-    Route::resource('questions', 'LessonWordController');
-    Route::resource('learnedWords', 'LearnedWordController');
 
     Route::get('/exams', [
         'as' => 'exams',
@@ -73,6 +67,13 @@ Route::group(['middleware' => 'web'], function () {
         'as' => 'recommendation.destroy', 'uses' => 'SetController@recommendationDestroy'
     ]);
 
+    Route::get('/sets/search', ['as' => '.sets.search', 'uses' => 'SetController@search']);
     Route::resource('sets', 'SetController');
     Route::resource('studies', 'StudyController');
+    Route::resource('categories', 'CategoryController');
+    Route::resource('words', 'WordController');
+    Route::resource('follows', 'FollowController');
+    Route::resource('lessons', 'LessonController');
+    Route::resource('questions', 'LessonWordController');
+    Route::resource('learnedWords', 'LearnedWordController');
 });

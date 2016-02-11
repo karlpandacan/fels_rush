@@ -78,7 +78,7 @@
                                         <li><a href="{{ url('/sets/create') }}">Create New Set</a></li>
                                         <li><a href="{{ url('/sets') }}">My Sets</a></li>
                                         <li><a href="{{ url('/sets/recommended') }}">Recommended Sets</a></li>
-                                        <li><a href="{{ url('/sets') }}">Search Sets</a></li>
+                                        <li><a href="{{ url('/sets/search?') }}">Search Sets</a></li>
                                     </ul>
                                 </li>
                             @else

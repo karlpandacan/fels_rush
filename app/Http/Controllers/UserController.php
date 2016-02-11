@@ -122,6 +122,7 @@ class UserController extends Controller
             $usersNotFollowing = User::ofNotIds($followingIds)->findUser($wildcard)->notAdmin()->get();
             $usersFollowing = $user->followers()->findUser($wildcard)->notAdmin()->get();
             $usersFollowers = $user->followees()->findUser($wildcard)->notAdmin()->get();
+//            dd($usersFollowers->lists('id'));
             $learnedWords = $user->learnedWords()->count();
             $followers = $user->followees()->notAdmin()->count();
             $following = $user->followers()->notAdmin()->count();

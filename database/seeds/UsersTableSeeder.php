@@ -79,7 +79,115 @@ class UsersTableSeeder extends Seeder
             'name' => 'Kazunari',
             'email' => 'kazunari@doe.com',
             'password' => bcrypt('admin001'),
-            'type' => 1,
+            'type' => 0,
+            'created_at' => date('Y-m-d H:i:s'),
+            'updated_at' => date('Y-m-d H:i:s')
+        ];
+
+        $data[] = [
+            'name' => 'Kenji',
+            'email' => 'kenji@doe.com',
+            'password' => bcrypt('admin001'),
+            'type' => 0,
+            'created_at' => date('Y-m-d H:i:s'),
+            'updated_at' => date('Y-m-d H:i:s')
+        ];
+
+        $data[] = [
+            'name' => 'Kevin',
+            'email' => 'kevin@doe.com',
+            'password' => bcrypt('admin001'),
+            'type' => 0,
+            'created_at' => date('Y-m-d H:i:s'),
+            'updated_at' => date('Y-m-d H:i:s')
+        ];
+
+        $data[] = [
+            'name' => 'John',
+            'email' => 'john@doe.com',
+            'password' => bcrypt('admin001'),
+            'type' => 0,
+            'created_at' => date('Y-m-d H:i:s'),
+            'updated_at' => date('Y-m-d H:i:s')
+        ];
+
+        $data[] = [
+            'name' => 'Mark',
+            'email' => 'mark@doe.com',
+            'password' => bcrypt('admin001'),
+            'type' => 0,
+            'created_at' => date('Y-m-d H:i:s'),
+            'updated_at' => date('Y-m-d H:i:s')
+        ];
+
+        $data[] = [
+            'name' => 'Sofia',
+            'email' => 'sofia@doe.com',
+            'password' => bcrypt('admin001'),
+            'type' => 0,
+            'created_at' => date('Y-m-d H:i:s'),
+            'updated_at' => date('Y-m-d H:i:s')
+        ];
+
+        $data[] = [
+            'name' => 'Dora',
+            'email' => 'Dora@doe.com',
+            'password' => bcrypt('admin001'),
+            'type' => 0,
+            'created_at' => date('Y-m-d H:i:s'),
+            'updated_at' => date('Y-m-d H:i:s')
+        ];
+
+        $data[] = [
+            'name' => 'Anna',
+            'email' => 'Anna@doe.com',
+            'password' => bcrypt('admin001'),
+            'type' => 0,
+            'created_at' => date('Y-m-d H:i:s'),
+            'updated_at' => date('Y-m-d H:i:s')
+        ];
+
+        $data[] = [
+            'name' => 'Lorna',
+            'email' => 'Lorna@doe.com',
+            'password' => bcrypt('admin001'),
+            'type' => 0,
+            'created_at' => date('Y-m-d H:i:s'),
+            'updated_at' => date('Y-m-d H:i:s')
+        ];
+
+        $data[] = [
+            'name' => 'Martin',
+            'email' => 'martin@doe.com',
+            'password' => bcrypt('admin001'),
+            'type' => 0,
+            'created_at' => date('Y-m-d H:i:s'),
+            'updated_at' => date('Y-m-d H:i:s')
+        ];
+
+        $data[] = [
+            'name' => 'Erika',
+            'email' => 'erika@doe.com',
+            'password' => bcrypt('admin001'),
+            'type' => 0,
+            'created_at' => date('Y-m-d H:i:s'),
+            'updated_at' => date('Y-m-d H:i:s')
+        ];
+
+        $data[] = [
+            'name' => 'Betty',
+            'email' => 'betty@doe.com',
+            'password' => bcrypt('admin001'),
+            'type' => 0,
+            'created_at' => date('Y-m-d H:i:s'),
+            'updated_at' => date('Y-m-d H:i:s')
+        ];
+
+        $data[] = [
+            'name' => 'Zander',
+            'email' => 'zander@doe.com',
+            'password' => bcrypt('admin001'),
+            'type' => 0,
             'created_at' => date('Y-m-d H:i:s'),
             'updated_at' => date('Y-m-d H:i:s')
         ];

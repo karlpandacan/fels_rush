@@ -141,7 +141,8 @@
                                                         </p>
                                                     </td>
                                                     <td class="col-xs-2 text-left">
-                                                        @if(auth()->user()->followers()->where('follower_id', $user->id)->exists())
+{{--                                                        @if(auth()->user()->followers()->where('follower_id', $user->id)->exists())--}}
+                                                        @if(in_array($user->id, $usersFollowing->lists('id')->toArray()))
                                                             {!! Form::model($user, array('method' => 'DELETE', 'route' => array('follows.destroy', $user->id))) !!}
                                                                 {!! Form::submit('Unfollow', ['class' => 'btn btn-danger']) !!}
                                                             {!! Form::close() !!}

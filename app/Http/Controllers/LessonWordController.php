@@ -63,10 +63,9 @@ class LessonWordController extends Controller
 
     public function create(Request $request)
     {
-        Session::keep('set_id');
+        session()->keep('set_id');
         $set = auth()->user()->sets()->find(session('set_id'));
         return view('questions.add', ['set' => $set]);
-        // return $this->store($request);
     }
 
     /*
@@ -74,9 +73,8 @@ class LessonWordController extends Controller
      */
     public function store(Request $request)
     {
-        Session::keep('set_id');
-        // auth()->user()->sets()->find(session('set_id'))->words->storeWords($request, session('set_id'));
-        exit;
+        session()->keep('set_id');
+        auth()->user()->sets()->find(session('set_id'))->words->storeWords($request, session('set_id'));
         // $lessonWord = new LessonWord;
         // try {
         //     if($lessonWord->generateLessonWords($request, auth()->user()) != false) {

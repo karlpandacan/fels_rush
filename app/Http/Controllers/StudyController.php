@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\Category;
 use Illuminate\Http\Request;
 
 
@@ -24,21 +25,30 @@ class StudyController extends Controller
      */
     public function index(Request $request)
     {
-        $sets = auth()->user()->sets()
-            ->userFollowedSets(auth()->user())
-            ->where('name', 'LIKE', '%'.$request->q.'%')
-            ->paginate(15);
-        // $sets = auth()->user()->studies()->where('name', 'LIKE', '%'.$request->q.'%')->paginate(15);
+        $setsIni = auth()
+            ->user()
+            ->studies()
+            ->where('name', 'LIKE', '%'.$request->q.'%');
+            if(isset($request->category) and $request->category != 'all') {
+                $setsIni = $setsIni->where('category_id', $request->category);
+            }
+            $setsIni = $setsIni->with('words')->latest()->paginate(10);
+        $sets = $setsIni;
         $learnedWords = auth()->user()->learnedWords()->count();
         $followers = auth()->user()->followees()->notAdmin()->count();
         $following = auth()->user()->followers()->notAdmin()->count();
         $followingIds = auth()->user()->followers()->lists('follows.follower_id');
         $followingIds->push(auth()->user()->id);
         $activitiesFollow = Activity::userIds($followingIds)->follow()->take(10)->latest()->get();
+        $categories = Category::lists('name', 'id');
+        $categories['all'] = 'All';
         return view('studies.index',[
             'sets' => $sets,
             'user' => auth()->user(),
+            'wildcard' => $request->q,
+            'selectedCategory' => $request->category,
             'followers' => $followers,
+            'categories' => $categories,
             'following' => $following,
             'learnedWords' => $learnedWords,
             'activitiesFollow' => $activitiesFollow

@@ -60,6 +60,7 @@ class UserController extends Controller
                 $user->id)->exists();
             $follow = $follow ? 'following' : 'not following';
         }
+
         $followers = $user->followees()->count();
         $following = $user->followers()->count();
         return view('users.view')

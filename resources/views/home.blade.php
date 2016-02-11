@@ -12,7 +12,6 @@
                 @if (count($activities) > 0)
                     @foreach ($activities as $activity)
                         <div class="row">
-                            style="margin-top: 15px; margin-bottom: 15px">
                             <div class="col-xs-2 text-right">
                                 <img src="{{ $activity->user->avatar }}"
                                      width="60" height="60">

@@ -32,11 +32,13 @@ class HomeController extends Controller
         $learnedWords = $user->learnedWords()->count();
         $followers = $user->followees()->notAdmin()->count();
         $following = $user->followers()->notAdmin()->count();
+        $activitiesFollow = $user->activities()->followActivities()->get();
         return view('home')
             ->with('user', $user)
             ->with('activities', $activities)
             ->with('followers', $followers)
             ->with('following', $following)
-            ->with('learnedWords', $learnedWords);
+            ->with('learnedWords', $learnedWords)
+            ->with('activitiesFollow', $activitiesFollow);
     }
 }

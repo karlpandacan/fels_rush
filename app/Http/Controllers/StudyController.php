@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
 
+
 use App\Http\Requests;
 use App\Models\Activity;
 use App\Http\Controllers\Controller;
@@ -21,9 +22,9 @@ class StudyController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
-    public function index()
+    public function index(Request $request)
     {
-        $sets = auth()->user()->studies()->paginate(15);
+        $sets = auth()->user()->studies()->where('name', 'LIKE', '%'.$request->q.'%')->paginate(15);
         $learnedWords = auth()->user()->learnedWords()->count();
         $followers = auth()->user()->followees()->notAdmin()->count();
         $following = auth()->user()->followers()->notAdmin()->count();
@@ -58,7 +59,8 @@ class StudyController extends Controller
      */
     public function store(Request $request)
     {
-        //
+        auth()->user()-sets()->attach($request->id);
+        return redirect()->back();
     }
 
     /**
@@ -103,6 +105,7 @@ class StudyController extends Controller
      */
     public function destroy($id)
     {
-        //
+        auth()->user()-sets()->detach($id);
+        return redirect()->back();
     }
 }

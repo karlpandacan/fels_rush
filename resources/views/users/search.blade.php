@@ -125,7 +125,7 @@
                                         <tbody>
                                             @foreach ($usersFollowers as $user)
                                                 <tr>
-                                                    <td class="col-xs-1 text-right">
+                                                    <td class="col-xs-1  text-right">
                                                         @if(!empty($user->avatar))
                                                             {!! Html::image($user->avatar, $user->name, ['style' => 'max-height: 60px; max-width:60px']) !!}
                                                         @else
@@ -143,7 +143,7 @@
                                                     <td class="col-xs-2 text-left">
                                                         @if(auth()->user()->followers()->where('follower_id', $user->id)->exists())
                                                             {!! Form::model($user, array('method' => 'DELETE', 'route' => array('follows.destroy', $user->id))) !!}
-                                                            {!! Form::submit('Unfollow', ['class' => 'btn btn-danger']) !!}
+                                                                {!! Form::submit('Unfollow', ['class' => 'btn btn-danger']) !!}
                                                             {!! Form::close() !!}
                                                         @else
                                                             {!! Form::open(['method' => 'post', 'route' => 'follows.store']) !!}

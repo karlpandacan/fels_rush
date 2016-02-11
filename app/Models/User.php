@@ -74,7 +74,7 @@ class User extends Authenticatable
     }
 
     public function studies(){
-        return $this->belongsToMany(Set::class, 'studies', 'user_id', 'set_id');
+        return $this->belongsToMany(Set::class, 'studies', 'user_id', 'set_id')->withTimestamps();
     }
 
     public function uploadImage($request)
@@ -103,6 +103,11 @@ class User extends Authenticatable
     public function getLearnedWordsIds()
     {
         return $this->learnedWords->lists('word_id');
+    }
+
+    public function getSetsFollowed()
+    {
+        return $this->studies()->lists('set_id');
     }
 
     public function scopeNotAdmin($query){

@@ -37,9 +37,19 @@ class Set extends Model
         return $this->hasMany(Lesson::class);
     }
 
-    public function lesson_words()
+    public function lessonWords()
     {
         return $this->hasManyThrough(LessonWord::class, Lesson::class);
+    }
+
+    public function scopeUserFollowedSets($query, $user)
+    {
+        return $query->whereIn('id', $user->getSetsFollowed());
+    }
+
+    public function scopeUserUnfollowedSets($query, $user)
+    {
+        return $query->whereNotIn('id', $user->getSetsFollowed());
     }
 
     public function assignValues($values)

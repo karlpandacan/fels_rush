@@ -9,6 +9,7 @@ use App\Http\Controllers\Controller;
 use App\Models\Lesson;
 use App\Models\LessonWord;
 use App\Models\Category;
+use App\Models\Set;
 use Exception;
 use Session;
 use Auth;
@@ -37,28 +38,40 @@ class LessonController extends Controller
      */
     public function store(Request $request)
     {
-        $availableQuestions = Category::findOrFail($request->category_id)
-            ->words()->userUnlearnedWords(auth()->user())->count();
+        // $availableQuestions = Category::findOrFail($request->category_id)
+        //     ->words()->userUnlearnedWords(auth()->user())->count();
 
-        if($availableQuestions < 20) {
-            session()->flash('flash_error',
-                'There are not enough words left for your exam. Please try again later.');
-            return redirect()->back();
-        } else {
-            try {
-                $lesson = auth()->user()->lessons()->create(['category_id' => $request->category_id]);
-            } catch (Exception $e) {
-                session()->flash('flash_error',
-                    'Your lesson could not be generated. Please try again later.');
-                return redirect()->back();
-            }
+        $setId = $request->input('set_id');
+        $set = Set::findOrFail($setId);
+        // $availableQuestions = $set->words()->userUnlearnedWords(auth()->user());
 
-            // Route to LessonWordController to generate questions
-            return redirect()->action(
-                'LessonWordController@create',
-                ['lesson_id' => $lesson->id, 'category_id' => $lesson->category_id]
-            );
-        }
+        $lesson = $set->lessons()->create([
+            'user_id' => auth()->id(),
+            'category_id' => $set->category_id
+        ]);
+
+        LessonWord::generateLessonWords($lesson, auth()->user());
+
+        return redirect('sets');
+        // if($availableQuestions < 20) {
+        //     session()->flash('flash_error',
+        //         'There are not enough words left for your exam. Please try again later.');
+        //     return redirect()->back();
+        // } else {
+        //     try {
+        //         $lesson = auth()->user()->lessons()->create(['category_id' => $request->category_id]);
+        //     } catch (Exception $e) {
+        //         session()->flash('flash_error',
+        //             'Your lesson could not be generated. Please try again later.');
+        //         return redirect()->back();
+        //     }
+
+        //     // Route to LessonWordController to generate questions
+        //     return redirect()->action(
+        //         'LessonWordController@create',
+        //         ['lesson_id' => $lesson->id, 'category_id' => $lesson->category_id]
+        //     );
+        // }
     }
 
     public function show(Request $request, $lessonId)

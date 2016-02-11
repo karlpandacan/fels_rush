@@ -24,7 +24,11 @@ class StudyController extends Controller
      */
     public function index(Request $request)
     {
-        $sets = auth()->user()->studies()->where('name', 'LIKE', '%'.$request->q.'%')->paginate(15);
+        $sets = auth()->user()->sets()
+            ->userFollowedSets(auth()->user())
+            ->where('name', 'LIKE', '%'.$request->q.'%')
+            ->paginate(15);
+        // $sets = auth()->user()->studies()->where('name', 'LIKE', '%'.$request->q.'%')->paginate(15);
         $learnedWords = auth()->user()->learnedWords()->count();
         $followers = auth()->user()->followees()->notAdmin()->count();
         $following = auth()->user()->followers()->notAdmin()->count();
@@ -59,7 +63,7 @@ class StudyController extends Controller
      */
     public function store(Request $request)
     {
-        auth()->user()-sets()->attach($request->id);
+        auth()->user()->studies()->attach($request->sid);
         return redirect()->back();
     }
 
@@ -105,7 +109,7 @@ class StudyController extends Controller
      */
     public function destroy($id)
     {
-        auth()->user()-sets()->detach($id);
+        auth()->user()->studies()->detach($id);
         return redirect()->back();
     }
 }

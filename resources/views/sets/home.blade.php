@@ -7,14 +7,21 @@
         @foreach($sets as $set)
             <div class="row">
                 <div class="col-xs-1">
-                    {{ link_to_route('sets.edit', 'Study', $set->id, ['class' => 'btn btn-primary btn-block']) }}
+                    @if(in_array($set->id, $followed_sets))
+                        {{ Form::open(['method' => 'delete', 'route' => ['studies.destroy', $set->id]]) }}
+                            {!! Form::hidden('sid', $set->id), null !!}
+                            {!! Form::submit('Unstudy', ['class' => 'btn btn-warning btn-block']) !!}
+                        {{ Form::close() }}
+                    @else
+                        {{ Form::open(['method' => 'post', 'route' => 'studies.store']) }}
+                            {!! Form::hidden('sid', $set->id), null !!}
+                            {!! Form::submit('Study', ['class' => 'btn btn-primary btn-block']) !!}
+                        {{ Form::close() }}
+                    @endif
                 </div>
                 <div class="col-xs-1">
                     {{ link_to_route('sets.edit', 'Edit Info', $set->id, ['class' => 'btn btn-success btn-block']) }}
                 </div>
-               <!--  <div class="col-xs-1">
-                    {{ link_to_route('questions.edit', 'Edit Cards', $set->id, ['class' => 'btn btn-success btn-block']) }}
-                </div> -->
                 <div class="col-xs-6">
                     <p><u><h4>
                         {{ link_to_route('sets.show',

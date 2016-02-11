@@ -88,7 +88,7 @@
                             <li><a href="{{ url('/register') }}">Register</a></li>
                         @else
                             <li>
-                                <form class="navbar-form">
+                                <form class="navbar-form" role="search">
                                     <div class="input-group">
                                         <input type="text" class="form-control" aria-label="..." placeholder="Search" id="q">
                                         <div class="input-group-btn">

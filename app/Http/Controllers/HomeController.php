@@ -27,12 +27,18 @@ class HomeController extends Controller
         $user = auth()->user();
         $followingIds = $user->followers()->lists('follows.follower_id');
         $followingIds->push($user->id);
-        $activities = Activity::userIds($followingIds)->latest()->paginate(15);
+        if($user->isAdmin()){
+            $activities = Activity::notFollow()->latest()->paginate(15);
+            $activitiesFollow = Activity::follow()->take(10)->latest()->get();
+        } else {
+            $activities = Activity::userIds($followingIds)->notFollow()->latest()->paginate(15);
+            $activitiesFollow = Activity::userIds($followingIds)->follow()->take(10)->latest()->get();
+        }
+
         $activities->load('user');
         $learnedWords = $user->learnedWords()->count();
         $followers = $user->followees()->notAdmin()->count();
         $following = $user->followers()->notAdmin()->count();
-        $activitiesFollow = $user->activities()->followActivities()->get();
         return view('home')
             ->with('user', $user)
             ->with('activities', $activities)

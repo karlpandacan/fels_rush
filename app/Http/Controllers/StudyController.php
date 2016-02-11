@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use Illuminate\Http\Request;
 
 use App\Http\Requests;
+use App\Models\Activity;
 use App\Http\Controllers\Controller;
 
 class StudyController extends Controller
@@ -26,13 +27,16 @@ class StudyController extends Controller
         $learnedWords = auth()->user()->learnedWords()->count();
         $followers = auth()->user()->followees()->notAdmin()->count();
         $following = auth()->user()->followers()->notAdmin()->count();
+        $followingIds = auth()->user()->followers()->lists('follows.follower_id');
+        $followingIds->push(auth()->user()->id);
+        $activitiesFollow = Activity::userIds($followingIds)->follow()->take(10)->latest()->get();
         return view('studies.index',[
             'sets' => $sets,
             'user' => auth()->user(),
             'followers' => $followers,
             'following' => $following,
             'learnedWords' => $learnedWords,
-            'learnedWords' => $learnedWords
+            'activitiesFollow' => $activitiesFollow
         ]);
     }
 

@@ -21,8 +21,25 @@
             .fa-btn {
                 margin-right: 6px;
             }
+            .btn-custom {
+                display: inline-block;
+                vertical-align: middle;
+            }
             a:hover {
                 text-decoration: none;
+                color: #ffffff;
+            }
+            td a:hover {
+                text-decoration: none;
+                color: #e8d069;
+            }
+            td a:link {
+                text-decoration: none;
+                color: #ffffff;
+            }
+            td a:visited  {
+                text-decoration: none;
+                color: #ffffff;
             }
         </style>
     </head>

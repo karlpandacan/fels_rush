@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
 use App\Models\User;
+use App\Models\Activity;
 use App\Http\Requests\UserRequest;
 use App\Http\Requests;
 use Session;
@@ -118,8 +119,17 @@ class UserController extends Controller
             $usersNotFollowing = User::ofNotIds($followingIds)->findUser($wildcard)->notAdmin()->get();
             $usersFollowing = $user->followers()->findUser($wildcard)->notAdmin()->get();
             $usersFollowers = $user->followees()->findUser($wildcard)->notAdmin()->get();
+            $learnedWords = $user->learnedWords()->count();
+            $followers = $user->followees()->notAdmin()->count();
+            $following = $user->followers()->notAdmin()->count();
+            $activitiesFollow = Activity::userIds($followingIds)->follow()->take(10)->latest()->get();
             return view('users.search')
                 ->with('tab', $tab)
+                ->with('user', $user)
+                ->with('followers', $followers)
+                ->with('following', $following)
+                ->with('learnedWords', $learnedWords)
+                ->with('activitiesFollow', $activitiesFollow)
                 ->with('usersFollowers', $usersFollowers)
                 ->with('usersFollowing', $usersFollowing)
                 ->with('usersNotFollowing', $usersNotFollowing);

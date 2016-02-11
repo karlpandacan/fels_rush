@@ -23,8 +23,15 @@ class Activity extends Model
         return $query->whereIn('user_id', $ids);
     }
 
-    public function scopeFollowActivities($query){
+    public function scopeFollow($query)
+    {
         return $query->where('activity_type', 'unfollowed_user')
             ->orWhere('activity_type', 'followed_user');
+    }
+
+    public function scopeNotFollow($query)
+    {
+        return $query->where('activity_type', '!=', 'unfollowed_user')
+            ->where('activity_type', '!=', 'followed_user');
     }
 }

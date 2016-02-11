@@ -21,10 +21,16 @@ class SetController extends Controller
 
     public function index()
     {
-        return view('sets.home', [
-            'sets' => auth()->user()->sets()->with('words')->paginate(6),
-            'followed_sets' => auth()->user()->getSetsFollowed()->toArray()
-        ]);
+        if(auth()->user()->isAdmin()) {
+            return view('sets.admin-home', [
+                'sets' => Set::with('user')->paginate(6)
+            ]);
+        } else {
+            return view('sets.home', [
+                'sets' => auth()->user()->sets()->with('words')->paginate(6),
+                'followed_sets' => auth()->user()->getSetsFollowed()->toArray()
+            ]);
+        }
     }
 
     public function create()
@@ -49,6 +55,7 @@ class SetController extends Controller
     {
         $set = Set::findOrFail($id);
         $user = auth()->user();
+        $learnedWordsArr = $user->getLearnedWordsIds()->toArray();
         $learnedWords = $user->learnedWords()->count();
         $followers = $user->followees()->notAdmin()->count();
         $following = $user->followers()->notAdmin()->count();
@@ -57,17 +64,25 @@ class SetController extends Controller
             ->with('user', $user)
             ->with('followers', $followers)
             ->with('following', $following)
-            ->with('learnedWords', $learnedWords);
+            ->with('learnedWords', $learnedWords)
+            ->with('learnedWordsArr', $learnedWordsArr);
     }
 
     public function edit(Request $request, $set_id)
     {
-        $set = auth()->user()->sets()->where('id', $set_id)->first();
+        $user = auth()->user();
+        if($user->isAdmin()) {
+            $set = Set::find($set_id);
+        } else {
+            $set = $user->sets()->where('id', $set_id)->first();
+        }
+
         if($set == null) {
             return redirect()->back();
         }
 
-        return view('sets.edit', [
+        return view(($user->isAdmin() ? 'sets.admin-edit' : 'sets.edit'), [
+            'users' => $user->getUserIds(),
             'categories' => Category::first()->listCategories(),
             'visibilities' => config('enums.visibility_types'),
             'set' => $set
@@ -81,7 +96,7 @@ class SetController extends Controller
             'set_id' => $id
         ]);
 
-        auth()->user()->sets()->find($id)->assignValues($request);
+        Set::find($id)->assignValues($request);
         Session::flash('set_id', auth()->user()->sets->last()->id);
 
         return redirect('sets');

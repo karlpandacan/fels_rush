@@ -48,9 +48,9 @@
                             </div>
                             <div class="form-group">
                                 {!! Form::submit('Update Password', ['class' => 'btn btn-primary']) !!}
+                                {{ link_to_route('users.show', 'Cancel', $user->id, ['class' => 'btn btn-danger']) }}
                             </div>
                             {!! Form::close() !!}
-                            {{ link_to_route('users.show', 'Cancel', $user->id, ['class' => 'btn btn-danger']) }}
                         </div>
                     </div>
                 </div>

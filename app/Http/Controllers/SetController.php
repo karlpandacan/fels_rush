@@ -10,6 +10,7 @@ use App\Models\Set;
 use App\Models\Category;
 use Auth;
 use Session;
+use Config;
 
 class SetController extends Controller
 {
@@ -25,7 +26,10 @@ class SetController extends Controller
 
     public function create()
     {
-        return view('sets.add', ['categories' => Category::first()->listCategories()]);
+        return view('sets.add', [
+            'categories' => Category::first()->listCategories(),
+            'visibilities' => config('enums.visibility_types')
+        ]);
     }
 
     public function store(Request $request)
@@ -43,18 +47,38 @@ class SetController extends Controller
 
     }
 
-    public function edit()
+    public function edit(Request $request, $set_id)
     {
+        $set = auth()->user()->sets()->where('id', $set_id)->first();
+        if($set == null) {
+            return redirect()->back();
+        }
 
+        return view('sets.edit', [
+            'categories' => Category::first()->listCategories(),
+            'visibilities' => config('enums.visibility_types'),
+            'set' => $set
+        ]);
     }
 
-    public function update()
+    public function update(Request $request, $id)
     {
+        $request->request->add([
+            'user_id' => auth()->id(),
+            'set_id' => $id
+        ]);
 
+        auth()->user()->sets()->find($id)->assignValues($request);
+        Session::flash('set_id', auth()->user()->sets->last()->id);
+
+        return redirect('sets');
+        // return redirect('questions/create');
     }
 
-    public function destroy()
+    public function destroy(Request $request, $id)
     {
+        auth()->user()->sets()->findOrFail($id)->delete();
 
+        return redirect('sets');
     }
 }

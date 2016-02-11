@@ -9,14 +9,22 @@
             {!! Form::label('set_category', 'Category') !!}
             {!! Form::select('set_category', $categories, null,['class' => 'form-control']) !!}
         </div>
+
+        <div class="form-group">
+            {!! Form::label('set_visibility', 'Visibile to') !!}
+            {!! Form::select('set_visibility', $visibilities, null,['class' => 'form-control']) !!}
+        </div>
+
         <div class="form-group">
             {!! Form::label('set_name', 'Name') !!}
             {!! Form::text('set_name', null, ['class' => 'form-control']) !!}
         </div>
+
         <div class="form-group">
             {!! Form::label('set_desc', 'Description') !!}
             {!! Form::textarea('set_desc', null, ['class' => 'form-control']) !!}
         </div>
+
         <div class="form-group">
             {!! Form::label('set_image', 'Image') !!}
             {!! Form::file('set_image') !!}

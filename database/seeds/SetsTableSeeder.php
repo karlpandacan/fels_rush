@@ -13,6 +13,7 @@ class SetsTableSeeder extends Seeder
     {
         DB::table('sets')->insert([
             'category_id' => 1,
+            'user_id' => 2,
             'name' => 'Sample Set',
             'description' => 'Lorem impsum mama papa alpha bravo charlie',
             'image' => null,

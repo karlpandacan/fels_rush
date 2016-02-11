@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Models\Activity;
+use App\Models\Set;
 use App\Http\Requests;
 
 class HomeController extends Controller
@@ -45,6 +46,8 @@ class HomeController extends Controller
             ->with('followers', $followers)
             ->with('following', $following)
             ->with('learnedWords', $learnedWords)
-            ->with('activitiesFollow', $activitiesFollow);
+            ->with('activitiesFollow', $activitiesFollow)
+            ->with('followed_sets', $user->getSetsFollowed()->toArray())
+            ->with('recommendedSets', Set::where('recommended', 1)->paginate(5));
     }
 }

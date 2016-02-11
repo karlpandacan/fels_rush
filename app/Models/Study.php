@@ -17,4 +17,8 @@ class Study extends Model
     {
         return $this->belongsTo(Set::class, 'set_id');
     }
+
+    public function scopePublicAndMe($query){
+
+    }
 }

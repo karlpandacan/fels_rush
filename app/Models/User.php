@@ -115,7 +115,8 @@ class User extends Authenticatable
         return $this->studies()->lists('set_id');
     }
 
-    public function scopeNotAdmin($query){
+    public function scopeNotAdmin($query)
+    {
         return $query->where('type', '!=', '1');
     }
 }

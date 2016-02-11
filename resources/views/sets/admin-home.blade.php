@@ -6,7 +6,7 @@
         <table class="table">
             <tbody>
                 <tr>
-                    <th>Owned By</th>
+                    <th>Made By</th>
                     <th>Set Name</th>
                     <th colspan="3">Actions</th>
                 </tr>

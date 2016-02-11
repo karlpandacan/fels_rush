@@ -19,6 +19,7 @@ class SetsTableSeeder extends Seeder
                     'category_id' => rand(1, 6),
                     'visible_to' => 'public',
                     'user_id' => $x,
+                    'recommended' => rand(0, 1),
                     'name' => $faker->country.' Language',
                     'description' => $faker->paragraph(3),
                     'image' => null,

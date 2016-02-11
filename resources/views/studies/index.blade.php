@@ -49,17 +49,15 @@
                                                 @endif
                                             </td>
                                             <td class="col-xs-8 text-left ">
+                                                <span style=font-size:1.3em>
+                                                    <b>{{ $set->name }}</b>
+                                                </span> <br>
+                                                by {{ link_to_route('users.show', $user->name, $user->id, null) }}
+                                                with {{  count($set->words) }} Cards
+                                                created on {{ $set->created_at->format('Y/m/d') }}
                                                 <p>
-                                            <span style=font-size:1.3em>
-                                                <b>{{ $set->name }}</b>
-                                            </span>
-                                                    by {{ link_to_route('users.show', $user->name, $user->id, null) }}
-                                                    with {{  count($set->words) }} Cards
-                                                    created on {{ $set->created_at->format('Y/m/d') }}
-                                                </p>
-                                                <p>
-                                                    {{ substr($set->description, 0, 32) }}
-                                                    {{ (strlen($set->description) > 32 ? '...' : '') }}
+                                                    {{ substr($set->description, 0, 65) }}
+                                                    {{ (strlen($set->description) > 65 ? '...' : '') }}
                                                 </p>
                                             </td>
                                             <td class="col-xs-2 text-left ">

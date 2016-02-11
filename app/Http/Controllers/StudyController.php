@@ -8,6 +8,7 @@ use Illuminate\Http\Request;
 
 use App\Http\Requests;
 use App\Models\Activity;
+use App\Models\Set;
 use App\Http\Controllers\Controller;
 
 class StudyController extends Controller
@@ -25,23 +26,27 @@ class StudyController extends Controller
      */
     public function index(Request $request)
     {
-        $setsIni = auth()
-            ->user()
-            ->studies()
-            ->where('name', 'LIKE', '%'.$request->q.'%');
-            if(isset($request->category) and $request->category != 'all') {
-                $setsIni = $setsIni->where('category_id', $request->category);
-            }
-            $setsIni = $setsIni->with('words')->latest()->paginate(10);
-        $sets = $setsIni;
-        $learnedWords = auth()->user()->learnedWords()->count();
-        $followers = auth()->user()->followees()->notAdmin()->count();
-        $following = auth()->user()->followers()->notAdmin()->count();
-        $followingIds = auth()->user()->followers()->lists('follows.follower_id');
-        $followingIds->push(auth()->user()->id);
+        $user = auth()->user();
+        $learnedWords = $user->learnedWords()->count();
+        $followers = $user->followees()->notAdmin()->count();
+        $following = $user->followers()->notAdmin()->count();
+        $followingIds = $user->followers()->lists('follows.follower_id');
+        $followingIds->push($user->id);
         $activitiesFollow = Activity::userIds($followingIds)->follow()->take(10)->latest()->get();
         $categories = Category::lists('name', 'id');
         $categories['all'] = 'All';
+        $recommendedSets = Set::where('recommended', 1)->with('user')->paginate(5);
+        // Eloquent of sets
+        $setsIni = $user->studies()
+            ->availableSets($followingIds, $user->id)
+            ->where('name', 'LIKE', '%'.$request->q.'%');
+        if(isset($request->category) and $request->category != 'all') {
+            $setsIni = $setsIni->where('category_id', $request->category);
+        }
+        $setsIni = $setsIni->with('words')
+            ->latest()
+            ->paginate(10);
+        $sets = $setsIni;
         return view('studies.index',[
             'sets' => $sets,
             'user' => auth()->user(),
@@ -51,7 +56,9 @@ class StudyController extends Controller
             'categories' => $categories,
             'following' => $following,
             'learnedWords' => $learnedWords,
-            'activitiesFollow' => $activitiesFollow
+            'activitiesFollow' => $activitiesFollow,
+            'followed_sets' => $user->getSetsFollowed()->toArray(),
+            'recommendedSets' => $recommendedSets
         ]);
     }
 

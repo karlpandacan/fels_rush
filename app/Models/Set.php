@@ -9,7 +9,7 @@ use DB;
 class Set extends Model
 {
     use SoftDeletes;
-    protected $fillable = ['category_id', 'visible_to', 'user_id', 'name', 'description', 'image'];
+    protected $fillable = ['category_id', 'visible_to', 'user_id', 'recommended', 'name', 'description', 'image'];
     protected $dates = ['deleted_at'];
 
     public function user()
@@ -87,4 +87,24 @@ class Set extends Model
         $values->file('set_image')->move(base_path() . '/public/images/sets/', $imageName);
         return $imageName;
     }
+
+    public function scopeAvailableSets($query, $ids, $id)
+    {
+        return $query->Where('visible_to', '=', 'public')
+            ->orWhere(function ($query2) use ($ids){
+                $query2->whereIn('sets.user_id', $ids)
+                    ->where('visible_to', 'followers');
+            })
+            ->orWhere(function ($query3) use ($id) {
+                $query3->where('sets.user_id', $id)
+                    ->where('visible_to', 'me');
+            });
+    }
+
+    public function scopeOnlyMeSets($query, $id)
+    {
+        return $query->orwhere('sets.user_id', $id)
+            ->where('visible_to', 'me');
+    }
+
 }

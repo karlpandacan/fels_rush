@@ -105,6 +105,11 @@ class User extends Authenticatable
         return $this->learnedWords->lists('word_id');
     }
 
+    public function getUserIds()
+    {
+        return $this->all()->lists('name', 'id');
+    }
+
     public function getSetsFollowed()
     {
         return $this->studies()->lists('set_id');

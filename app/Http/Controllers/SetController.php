@@ -42,9 +42,19 @@ class SetController extends Controller
         return redirect('questions/create');
     }
 
-    public function show()
+    public function show($id)
     {
-
+        $set = Set::findOrFail($id);
+        $user = auth()->user();
+        $learnedWords = $user->learnedWords()->count();
+        $followers = $user->followees()->notAdmin()->count();
+        $following = $user->followers()->notAdmin()->count();
+        return view('sets.view')
+            ->with('set', $set)
+            ->with('user', $user)
+            ->with('followers', $followers)
+            ->with('following', $following)
+            ->with('learnedWords', $learnedWords);
     }
 
     public function edit(Request $request, $set_id)

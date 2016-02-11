@@ -1,54 +1,95 @@
 @extends('layouts.app')
 
 @section('content')
-    <div class="container">
-        <h1>Update Set</h1>
-
-        {!! Form::open(['method' => 'patch', 'route' => ['sets.update', $set->id], 'files' => 'true']) !!}
+    <div class="col-sm-3">
         <div class="row">
-            <div class="form-group col-xs-6">
-                {!! Form::label('set_category', 'Category') !!}
-                {!! Form::select('set_category', $categories, $set->category_id,['class' => 'form-control']) !!}
-            </div>
-
-
+            @include('layouts.user')
         </div>
-
-        <div class="row">
-            <div class="form-group col-xs-6">
-                {!! Form::label('set_visibility', 'Visibile to') !!}
-                {!! Form::select('set_visibility', $visibilities, $set->visible_to,['class' => 'form-control']) !!}
-            </div>
-        </div>
-
-        <div class="row">
-            <div class="form-group col-xs-6">
-                {!! Form::label('set_name', 'Name') !!}
-                {!! Form::text('set_name', $set->name, ['class' => 'form-control']) !!}
-            </div>
-
-            <div class="form-group col-xs-6">
-                {!! Form::label('set_image', 'Image') !!}
-                {!! Form::file('set_image') !!}
-            </div>
-        </div>
-
-        <div class="form-group">
-            {!! Form::label('set_desc', 'Description') !!}
-            {!! Form::textarea('set_desc', $set->description, ['class' => 'form-control']) !!}
-        </div>
-
-        <div class="form-group">
-            <div class="row">
-                <div class="col-xs-1">
-                    {!! Form::submit('Save', ['class' => 'btn btn-primary']) !!}
+    </div>
+    <div class="col-sm-9">
+        <div class="panel panel-default">
+            <div class="panel-body">
+                <div class="row">
+                    <div class="col-xs-2 text-right">
+                        @if(!empty($user->image))
+                            {!! Html::image($set->image, $set->name, ['class' => 'img-thumbnail', 'style' => 'max-height: 72px; max-width:72px']) !!}
+                        @else
+                            {!! Html::image('images/user_default.jpg', $set->name, ['class' => 'img-thumbnail', 'style' => 'max-height: 72px; max-width:72px']) !!}
+                        @endif
+                    </div>
+                    <div class="col-xs-10 text-left">
+                        <div class="row">
+                            <span style=font-size:1.8em>
+                                {{ $set->name }}
+                            </span>
+                        </div>
+                        <div class="row">
+                            <p>
+                                {{  count($set->words) }} Cards by
+                                {{ link_to_route('users.show', $user->name, $user->id, null) }} created on {{ $set->created_at->format('Y/m/d') }}
+                            </p>
+                        </div>
+                    </div>
                 </div>
-                <div class="col-xs-2">
-                    {{ link_to_route('sets.index', 'Cancel', null, ['class' => 'btn btn-danger']) }}
+                <hr>
+                <div class="row">
+                    <div class="col-xs-12 text-left">
+                        @if (count($set->words) > 0)
+                            <div class="row">
+                                <div class="col-md-1 text-center">
+                                    #
+                                </div>
+                                <div class="col-md-3 text-center">
+                                    Word
+                                </div>
+                                <div class="col-md-4 text-center">
+                                    Answer
+                                </div>
+                            </div>
+                            <br>
+                            @foreach($set->words as $word)
+                                <div class="panel panel-default">
+                                    <div class="panel-body">
+                                        <div class="row">
+                                            <div class="col-md-1 text-center">
+                                                {{ $cnt = (isset($cnt) ? $cnt : 0) + 1 }}
+                                            </div>
+                                            <div class="col-md-3 text-center">
+                                                {{ $word->word_original }}
+                                            </div>
+                                            <div class="col-md-4 text-center" id="{{ $word->id }}">
+
+                                            </div>
+                                            <div id="hide-btn-{{ $word->id }}" style="display: none">
+                                                <div class="col-md-2 text-center">
+                                                    <button class="btn btn-block btn-info" onClick="$('#{{ $word->id }}').html('');$('#hide-btn-{{ $word->id }}').hide(); $('#show-btn-{{ $word->id }}').show();">
+                                                        Hide Answer
+                                                    </button>
+                                                </div>
+                                            </div>
+                                            <div id="show-btn-{{ $word->id }}">
+                                                <div class="col-md-2 text-center">
+                                                    <button class="btn btn-block btn-primary" onClick="$('#{{ $word->id }}').html('{{ $word->word_translated }}' );$('#hide-btn-{{ $word->id }}').show(); $('#show-btn-{{ $word->id }}').hide();">
+                                                        Show Answer
+                                                    </button>
+                                                </div>
+                                            </div>
+                                            <div class="col-md-2 text-center">
+                                                <button class="btn btn-block btn-success">Learn</button>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                                <br>
+                            @endforeach
+                        @else
+                            <p>
+                                There are no Cards for this set.
+                            </p>
+                        @endif
+                    </div>
                 </div>
             </div>
         </div>
-        {!! Form::close() !!}
-
     </div>
 @endsection

@@ -62,6 +62,10 @@ class Set extends Model
             'description' => $values->input('set_desc')
         ];
 
+        if(!empty($values->input('owned_by'))) {
+            $data['user_id'] = $values->input('owned_by');
+        }
+
         if(!empty($values->file('set_image'))) {
             $data['image'] = $this->saveImage($data, $values);
         }

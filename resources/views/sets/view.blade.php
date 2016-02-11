@@ -75,7 +75,21 @@
                                                 </div>
                                             </div>
                                             <div class="col-md-2 text-center">
-                                                <button class="btn btn-block btn-success">Learn</button>
+                                                @if(in_array($word->id, $learnedWordsArr))
+                                                {{ Form::open([
+                                                    'method' => 'delete',
+                                                    'route' => ['learnedWords.destroy', $word->id]
+                                                ]) }}
+                                                    {{ Form::submit('Unlearn', ['class' => 'btn btn-primary']) }}
+                                                @else
+                                                {{ Form::open([
+                                                    'method' => 'post',
+                                                    'route' => 'learnedWords.store'
+                                                ]) }}
+                                                    {{ Form::submit('Learn', ['class' => 'btn btn-success']) }}
+                                                @endif
+                                                    {{ Form::hidden('id', $word->id) }}
+                                                {{ Form::close() }}
                                             </div>
                                         </div>
                                     </div>

@@ -53,7 +53,7 @@ class Set extends Model
         ];
 
         if(!empty($values->file('set_image'))) {
-            $data = $this->saveImage($data, $values);
+            $data['image'] = $this->saveImage($data, $values);
         }
 
         if($values->input('set_id') == null) {
@@ -66,13 +66,11 @@ class Set extends Model
     public function saveImage($data, $values)
     {
         $imageName = $this->image;
-        if(empty($this->image)) {
+        if(empty($imageName)) {
             $imageName = uniqid() . '.' . $values->file('set_image')->getClientOriginalExtension(); // Create new name;
         }
 
         $values->file('set_image')->move(base_path() . '/public/images/sets/', $imageName);
-        $data['set_image'] = $imageName;
-
-        return $data;
+        return $imageName;
     }
 }

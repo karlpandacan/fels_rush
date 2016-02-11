@@ -70,7 +70,7 @@
                             @if(!auth()->user()->isAdmin())
                                 <li class="{{ Request::is('studies*') ? 'active' : '' }}"><a href="{{ url('/studies') }}">Studying</a></li>
                                 <li class="dropdown-toggle {{ Request::is('sets*') ? 'active' : '' }}">
-                                    <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">Sets<span class="caret"></span></a>
+                                    <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">Sets <span class="caret"></span></a>
                                     <ul class="dropdown-menu">
                                         <li><a href="{{ url('/sets/create') }}">Create New Set</a></li>
                                         <li><a href="{{ url('/sets') }}">My Sets</a></li>
@@ -88,31 +88,33 @@
                             <li><a href="{{ url('/register') }}">Register</a></li>
                         @else
                             <li>
-                                <div class="input-group navbar-form">
-                                    <input type="text" class="form-control" aria-label="..." placeholder="Search" id="q">
-                                    <div class="input-group-btn">
-                                        <button type="button" class="btn btn-default dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                                            Users <span class="caret"></span>
-                                        </button>
-                                        <ul class="dropdown-menu dropdown-menu-right">
-                                            <li>
-                                                <a href="{{ url('/users/search') }}" onclick="location.href=this.href+'?q='+$('#q').val();return false;">
-                                                    Users
-                                                </a>
-                                            </li>
-                                            <li>
-                                                <a href="{{ url('/sets/search') }}" onclick="location.href=this.href+'?q='+$('#q').val();return false;">
-                                                    Sets
-                                                </a>
-                                            </li>
-                                            <li>
-                                                <a href="{{ url('/studies') }}" onclick="location.href=this.href+'?q='+$('#q').val();return false;">
-                                                    Studying
-                                                </a>
-                                            </li>
-                                        </ul>
-                                    </div><!-- /btn-group -->
-                                </div><!-- /input-group -->
+                                <form class="navbar-form">
+                                    <div class="input-group">
+                                        <input type="text" class="form-control" aria-label="..." placeholder="Search" id="q">
+                                        <div class="input-group-btn">
+                                            <button type="button" class="btn btn-default dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                                                Users <span class="caret"></span>
+                                            </button>
+                                            <ul class="dropdown-menu dropdown-menu-right">
+                                                <li>
+                                                    <a href="{{ url('/users/search') }}" onclick="location.href=this.href+'?q='+$('#q').val();return false;">
+                                                        Users
+                                                    </a>
+                                                </li>
+                                                <li>
+                                                    <a href="{{ url('/sets/search') }}" onclick="location.href=this.href+'?q='+$('#q').val();return false;">
+                                                        Sets
+                                                    </a>
+                                                </li>
+                                                <li>
+                                                    <a href="{{ url('/studies') }}" onclick="location.href=this.href+'?q='+$('#q').val();return false;">
+                                                        Studying
+                                                    </a>
+                                                </li>
+                                            </ul>
+                                        </div><!-- /btn-group -->
+                                    </div><!-- /input-group -->
+                                </form>
                             </li>
                             <li class="dropdown">
                                 <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-expanded="false">

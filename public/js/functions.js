@@ -1,6 +1,10 @@
 /*
  * Question creation
  */
+window.onload = function(e) {
+    countRows();
+}
+
 function cloneRow()
 {
     addButton = $('.btn-success').eq(0);
@@ -10,6 +14,7 @@ function cloneRow()
     rowClone = rowOriginal.clone(true);
     // Clear row values
     rowClone.find('input[type=text]').val(null);
+    rowClone.find('input[type=hidden]').val(null);
     // Append to HTML
     rowClone.insertBefore(addButton.parent().parent());
 

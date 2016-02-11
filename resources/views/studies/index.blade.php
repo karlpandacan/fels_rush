@@ -13,44 +13,68 @@
     </div>
     <div class="col-sm-9 text-left">
         <div class="panel panel-default">
-            <div class="panel-heading">Studying</div>
             <div class="panel-body">
-                <table class="table">
-                    <tbody>
-                    @if (count($sets) > 0)
-                        @foreach ($sets as $set)
-                            <tr>
-                                <td class="col-xs-1 text-right">
-                                    {{ Form::open(['method' => 'delete', 'route' => ['studies.destroy', $set->id]]) }}
-                                        {!! Form::hidden('sid', $set->id), null !!}
-                                        {!! Form::submit('Unstudy', ['class' => 'btn btn-primary']) !!}
-                                    {{ Form::close() }}
-                                </td>
-                                <td class="col-xs-1 text-right">
-                                    @if(!empty($set->image))
-                                        {!! Html::image('images/sets/' . $set->image, $set->name, ['style' => 'max-height: 60px; max-width: 60px;', 'name' => 'image']) !!}
-                                    @else
-                                        {!! Html::image('images/cat_default.png', $set->name, ['style' => 'max-height: 60px; max-width: 60px;', 'name' => 'image']) !!}
-                                    @endif
-                                </td>
-                                <td class="col-xs-8 text-left ">
-                                    <b>{{ $set->name }}</b> ( {{ $set->created_at->format('Y/m/d') }} )<br>
-                                    - {{
-                                        substr($set->description, 0, 32) }}
-                                        {{ (strlen($set->description) > 32 ? '...' : '')
-                                    }}
-                                </td>
-                                <td class="col-xs-2 text-left ">
-                                    {{ link_to_route('sets.show', 'View Lesson', $set->id, ['class' => 'btn-block btn btn-success']) }}
-                                </td>
-                            </tr>
-                        @endforeach
-                        {!! $sets->render() !!}
-                    @else
-                        <h3>No Record Found</h3>
-                    @endif
-                    </tbody>
-                </table>
+                <div class="row">
+                        {{ Form::open(['url' => '/studies', 'method' => 'GET', 'class' => 'form-inline']) }}
+                        <div class="form-group">
+                            {{  Form::text('q', null, ['class' => 'form-control input-sm'], null) }}
+                        </div>
+                        <div class="form-group">
+                            {{ Form::select('category', ['L' => 'Large', 'S' => 'Small'], null, ['class' => 'form-control input-sm']) }}
+                        </div>
+                        <div class="form-group">
+                            {{ Form::submit('Search', ['class' => 'btn btn-primary ']) }}
+                        </div>
+                        {{ Form::close() }}
+                </div>
+                <br>
+                <div class="row">
+                    <div class="col-sm-12">
+                        <table class="table">
+                            <tbody>
+                            @if (count($sets) > 0)
+                                @foreach ($sets as $set)
+                                    <tr>
+                                        <td class="col-xs-1 text-right">
+                                            {{ Form::open(['method' => 'delete', 'route' => ['studies.destroy', $set->id]]) }}
+                                            {!! Form::hidden('sid', $set->id), null !!}
+                                            {!! Form::submit('Unstudy', ['class' => 'btn btn-primary']) !!}
+                                            {{ Form::close() }}
+                                        </td>
+                                        <td class="col-xs-1 text-right">
+                                            @if(!empty($set->image))
+                                                {!! Html::image('images/sets/' . $set->image, $set->name, ['style' => 'max-height: 60px; max-width: 60px;', 'name' => 'image']) !!}
+                                            @else
+                                                {!! Html::image('images/cat_default.png', $set->name, ['style' => 'max-height: 60px; max-width: 60px;', 'name' => 'image']) !!}
+                                            @endif
+                                        </td>
+                                        <td class="col-xs-8 text-left ">
+                                            <p>
+                                        <span style=font-size:1.3em>
+                                            <b>{{ $set->name }}</b>
+                                        </span>
+                                                by {{ link_to_route('users.show', $user->name, $user->id, null) }}
+                                                with {{  count($set->words) }} Cards
+                                                created on {{ $set->created_at->format('Y/m/d') }}
+                                            </p>
+                                            <p>
+                                                {{ substr($set->description, 0, 32) }}
+                                                {{ (strlen($set->description) > 32 ? '...' : '') }}
+                                            </p>
+                                        </td>
+                                        <td class="col-xs-2 text-left ">
+                                            {{ link_to_route('sets.show', 'View Lesson', $set->id, ['class' => 'btn-block btn btn-success']) }}
+                                        </td>
+                                    </tr>
+                                @endforeach
+                                {!! $sets->render() !!}
+                            @else
+                                <h3>No Record Found</h3>
+                            @endif
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
             </div>
         </div>
     </div>

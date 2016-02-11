@@ -7,6 +7,7 @@
 
         <title>Framgia E-Learning System - @yield('title')</title>
 
+        <link rel="icon" href="icon.png" sizes="any" type="image/svg+xml">
         <!-- Fonts -->
         <link href="{{ url('css/font-awesome.min.css') }}" rel='stylesheet' type='text/css'>
         <link href="{{ url('css/font.css') }}" rel='stylesheet' type='text/css'>

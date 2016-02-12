@@ -10,6 +10,7 @@ use App\Models\LessonWord;
 use App\Models\LearnedWord;
 use App\Models\Lesson;
 use App\Models\Word;
+use App\Models\Set;
 use App\Models\Activity;
 use Session;
 use Exception;
@@ -62,10 +63,9 @@ class LessonWordController extends Controller
 
     public function create(Request $request)
     {
-        Session::keep('set_id');
+        session()->keep('set_id');
         $set = auth()->user()->sets()->find(session('set_id'));
         return view('questions.add', ['set' => $set]);
-        // return $this->store($request);
     }
 
     /*
@@ -73,9 +73,8 @@ class LessonWordController extends Controller
      */
     public function store(Request $request)
     {
-        Session::keep('set_id');
-        // auth()->user()->sets()->find(session('set_id'))->words->storeWords($request, session('set_id'));
-        exit;
+        session()->keep('set_id');
+        auth()->user()->sets()->find(session('set_id'))->words->storeWords($request, session('set_id'));
         // $lessonWord = new LessonWord;
         // try {
         //     if($lessonWord->generateLessonWords($request, auth()->user()) != false) {
@@ -99,7 +98,13 @@ class LessonWordController extends Controller
 
     public function edit(Request $request, $id)
     {
-        $set = auth()->user()->sets()->find($id);
+        $user = auth()->user();
+        if($user->isAdmin()) {
+            $set = Set::find($id);
+        } else {
+            $set = auth()->user()->sets()->find($id);    
+        }
+        
         return view('questions.edit', ['set' => $set, 'words' => $set->words]);
     }
 

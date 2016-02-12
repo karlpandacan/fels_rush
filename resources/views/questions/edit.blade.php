@@ -9,9 +9,29 @@
                     <div class="panel-heading">Edit Cards for set: <b>{{ $set->name }}</b></div>
                     <div class="panel-body">
                         <div class="col-md-10">
-                            {!! Form::open(['method' => 'post', 'route' => 'words.store', 'files' => 'true']) !!}
+                            {!! Form::open(['method' => 'patch', 'route' => ['words.update', $set->id], 'files' => 'true']) !!}
                                 {{ Form::hidden('set_id', $set->id) }}
                                 <div class="form-group">
+                                    @if(count($words) == 0)
+                                    <div class="row">
+                                        <div class="col-xs-5">
+                                            {!! Form::label('word_original', 'Original Word') !!}
+                                            {!! Form::text('word_original[]', null, ['class' => 'form-control']) !!}
+                                        </div>
+                                        <div class="col-xs-5">
+                                            {!! Form::label('word_translated', 'Translated Word') !!}
+                                            {!! Form::text('word_translated[]', null, ['class' => 'form-control']) !!}
+                                        </div>
+                                        <div class="col-xs-1">
+                                            {!! Form::label(null, 'Remove') !!}
+                                            {!! Form::button(null, [
+                                                'class' => 'glyphicon glyphicon-minus btn btn-danger',
+                                                'disabled' => true,
+                                                'onclick' => 'removeRow(this);'
+                                            ]) !!}
+                                        </div>
+                                    </div>
+                                    @endif
                                     @foreach($words as $word)
                                     <div class="row">
                                         {!! Form::hidden('word_id[]', $word->id) !!}

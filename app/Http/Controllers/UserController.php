@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
 use App\Models\User;
+use App\Models\Set;
 use App\Models\Activity;
 use App\Http\Requests\UserRequest;
 use App\Http\Requests;
@@ -70,7 +71,9 @@ class UserController extends Controller
             ->with('user', $user)
             ->with('learnedWords', $learnedWords)
             ->with('followers', $followers)
-            ->with('following', $following);
+            ->with('following', $following)
+            ->with('followed_sets', $user->getSetsFollowed()->toArray())
+            ->with('recommendedSets', Set::where('recommended', 1)->paginate(5));
     }
 
     public function edit(User $user)
@@ -119,6 +122,7 @@ class UserController extends Controller
             $usersNotFollowing = User::ofNotIds($followingIds)->findUser($wildcard)->notAdmin()->get();
             $usersFollowing = $user->followers()->findUser($wildcard)->notAdmin()->get();
             $usersFollowers = $user->followees()->findUser($wildcard)->notAdmin()->get();
+//            dd($usersFollowers->lists('id'));
             $learnedWords = $user->learnedWords()->count();
             $followers = $user->followees()->notAdmin()->count();
             $following = $user->followers()->notAdmin()->count();
@@ -132,7 +136,9 @@ class UserController extends Controller
                 ->with('activitiesFollow', $activitiesFollow)
                 ->with('usersFollowers', $usersFollowers)
                 ->with('usersFollowing', $usersFollowing)
-                ->with('usersNotFollowing', $usersNotFollowing);
+                ->with('usersNotFollowing', $usersNotFollowing)
+                ->with('followed_sets', $user->getSetsFollowed()->toArray())
+                ->with('recommendedSets', Set::where('recommended', 1)->paginate(5));
         } else {
             $users = User::findUser($wildcard)->get();
             return view('users.search')

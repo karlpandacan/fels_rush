@@ -47,58 +47,7 @@ class LessonWord extends Model
         }
 
         LessonWord::insert($newLessonWords);
-
-        // Fetch the ids of learned words to be used in querying the words that have not been learned yet
-        // $lessonWords = Category::findOrFail($request->category_id)
-        //     ->words()
-        //     ->userUnlearnedWords($user)
-        //     ->orderBy(\DB::raw('RAND()'))
-        //     ->take(20)
-        //     ->get();
-
-        // $lessonWordsToInsert = [];
-        // foreach ($lessonWords as $lessonWord) {
-        //     $lessonWordsToInsert[] = [
-        //         'lesson_id' => $request->lesson_id,
-        //         'word_id' => $lessonWord->id,
-        //         'created_at' => date('Y-m-d H:i:s')
-        //     ];
-        // }
-
-        // try {
-        //     Eloquent::insert($lessonWordsToInsert);
-        //     return true;
-        // } catch (\Exception $e) {
-        //     return false;
-        // }
     }
-
-    // public function generateLessonWords($request, $user)
-    // {
-    //     // Fetch the ids of learned words to be used in querying the words that have not been learned yet
-    //     $lessonWords = Category::findOrFail($request->category_id)
-    //         ->words()
-    //         ->userUnlearnedWords($user)
-    //         ->orderBy(\DB::raw('RAND()'))
-    //         ->take(20)
-    //         ->get();
-
-    //     $lessonWordsToInsert = [];
-    //     foreach ($lessonWords as $lessonWord) {
-    //         $lessonWordsToInsert[] = [
-    //             'lesson_id' => $request->lesson_id,
-    //             'word_id' => $lessonWord->id,
-    //             'created_at' => date('Y-m-d H:i:s')
-    //         ];
-    //     }
-
-    //     try {
-    //         Eloquent::insert($lessonWordsToInsert);
-    //         return true;
-    //     } catch (\Exception $e) {
-    //         return false;
-    //     }
-    // }
 
     public function setAnswer($request)
     {

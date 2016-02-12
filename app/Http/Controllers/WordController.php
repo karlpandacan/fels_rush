@@ -38,18 +38,18 @@ class WordController extends Controller
 
     public function create()
     {
-        return view('words.add', ['categories' => Category::first()->listCategories()]);
+        session()->keep('set_id');
+        return view('words.add', [
+            'categories' => Category::first()->listCategories()
+        ]);
     }
 
     public function store(Request $request)
     {
-        session::keep('set_id');
-        $setId = session('set_id');
-        // auth()->user()->sets()->find($setId)->words->first()->storeWords($request, $setId);
+        $setId = $request->input('set_id');
 
         try {
-            $word = new Word;
-            $word->storeWords($request, $setId);
+            Word::storeWords($request, $setId);
             session()->flash('flash_success', 'Adding of word successful!');
         } catch (Exception $e) {
             session()->flash('flash_error', 'Adding of word failed.');
@@ -77,17 +77,18 @@ class WordController extends Controller
         return redirect('/words');
     }
 
-    public function update(Request $request, $id)
+    public function update(Request $request, $setId)
     {
         try {
-            $word = Word::findOrFail($id)->assignValues($request);
+            Word::where('set_id', $setId)->delete();
+            Word::storeWords($request, $setId);
             session()->flash('flash_success', 'Update successful!');
         } catch (ModelNotFoundException $e) {
             session()->flash('flash_error',
                 'Update failed. The word you are trying to update cannot be found.');
         }
 
-        return redirect('/words');
+        return redirect('/sets');
     }
 
     public function destroy($id)

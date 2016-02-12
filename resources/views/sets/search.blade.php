@@ -63,7 +63,7 @@
                                                 <b>
                                                     {{ $set->name }}
                                                     @if($set->total)
-                                                        ( {{ $set->total }} user/s studying )
+                                                        ( users studying: {{ $set->total }} )
                                                     @endif
                                                 </b>
                                             </span> <br>

@@ -9,7 +9,7 @@ use DB;
 class Set extends Model
 {
     use SoftDeletes;
-    protected $fillable = ['category_id', 'visible_to', 'user_id', 'recommended', 'name', 'description', 'image'];
+    protected $fillable = ['category_id', 'visible_to', 'user_id', 'recommended', 'name', 'description', 'image','aggregate'];
     protected $dates = ['deleted_at'];
 
     public function user()
@@ -21,6 +21,14 @@ class Set extends Model
     {
         return $this->belongsToMany(User::class, 'studies', 'set_id', 'user_id');
     }
+
+    public function usersCount() // allows you to eager load
+    {
+        return $this->users()
+            ->selectRaw('set_id, count(*) as aggregate')
+            ->groupBy('set_id');
+    }
+
 
     public function category()
     {

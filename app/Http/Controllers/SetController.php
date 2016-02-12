@@ -74,6 +74,11 @@ class SetController extends Controller
         $set = new Set;
         $request->request->add(['user_id' => auth()->id()]);
         $set->assignValues($request);
+        auth()->user()->activities()->create([
+            'lesson_id' => 0,
+            'content'   => auth()->user()->name . ' created a set: ' . $request->input('set_name'),
+            'activity_type' => config('enums.activity_types.SET_CREATED')
+        ]);
         session()->flash('set_id', auth()->user()->sets()->lastUserInsert()->id);
 
         return redirect('questions/create');
@@ -129,13 +134,24 @@ class SetController extends Controller
         if(!$user->isAdmin()) {
             auth()->user()->sets->find($id)->assignValues($request);
         }
+        auth()->user()->activities()->create([
+            'lesson_id' => 0,
+            'content'   => auth()->user()->name . ' updated a set: ' . $request->input('set_name'),
+            'activity_type' => config('enums.activity_types.SET_UPDATED')
+        ]);
 
         return redirect('sets');
     }
 
     public function destroy(Request $request, $id)
     {
-        auth()->user()->sets()->findOrFail($id)->delete();
+        $set = auth()->user()->sets()->findOrFail($id);
+        $set->delete();
+        auth()->user()->activities()->create([
+            'lesson_id' => 0,
+            'content'   => auth()->user()->name . ' deleted a set: ' . $set->name,
+            'activity_type' => config('enums.activity_types.SET_DELETED')
+        ]);
 
         return redirect('sets');
     }
@@ -143,7 +159,7 @@ class SetController extends Controller
     public function search(Request $request)
     {
         $user = auth()->user();
-
+//        dd(Set::with('users')->get());
         $learnedWords = $user->learnedWords()->count();
         $followers = $user->followees()->notAdmin()->count();
         $following = $user->followers()->notAdmin()->count();
@@ -159,7 +175,9 @@ class SetController extends Controller
         }
         if(isset($request->filter) and $request->filter != 'latest'){
             if($request->filter == 'pop') {
-                $setsIni = $setsIni->latest();
+                $setsIni = $setsIni->with(['usersCount' => function ($query) {
+                    $query->orderBy('aggregate', 'desc');
+                }]);
             } else {
                 $setsIni = $setsIni->where('recommended', 1)->latest();
             }
@@ -170,6 +188,7 @@ class SetController extends Controller
             ->paginate(20);
 
         $sets = $setsIni;
+//        dd($sets);
         $categories = Category::lists('name', 'id');
         $categories['all'] = 'All Category';
         return view('sets/search',[

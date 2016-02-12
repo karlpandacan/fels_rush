@@ -78,7 +78,7 @@
                                 </tbody>
                             </table>
                             <div class="row">
-                                {!! $sets->appends(['q' => $wildcard, 'category' => $selectedCategory])->links() !!}
+                                {!! $sets->appends(['q' => $wildcard, 'category' => $selectedCategory, 'filter' => $filter])->links() !!}
                             </div>
 
                         @else

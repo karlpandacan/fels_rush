@@ -6,6 +6,7 @@ use Illuminate\Http\Request;
 
 use App\Http\Requests;
 use App\Models\Word;
+use App\Models\Set;
 use App\Models\Category;
 use App\Models\LearnedWord;
 use Illuminate\Database\Eloquent\ModelNotFoundException;
@@ -83,6 +84,11 @@ class WordController extends Controller
             Word::where('set_id', $setId)->delete();
             Word::storeWords($request, $setId);
             session()->flash('flash_success', 'Update successful!');
+            auth()->user()->activities()->create([
+                'lesson_id' => 0,
+                'content'   => auth()->user()->name . ' updated a set: ' . Set::find($setId)->name,
+                'activity_type' => config('enums.activity_types.SET_UPDATED')
+            ]);
         } catch (ModelNotFoundException $e) {
             session()->flash('flash_error',
                 'Update failed. The word you are trying to update cannot be found.');

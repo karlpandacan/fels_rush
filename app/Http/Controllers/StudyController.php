@@ -81,6 +81,11 @@ class StudyController extends Controller
     public function store(Request $request)
     {
         auth()->user()->studies()->attach($request->sid);
+        auth()->user()->activities()->create([
+            'lesson_id' => 0,
+            'content'   => auth()->user()->name . ' started studying set: ' . Set::find($request->sid)->name,
+            'activity_type' => config('enums.activity_types.SET_FOLLOWED')
+        ]);
         return redirect()->back();
     }
 
@@ -127,6 +132,11 @@ class StudyController extends Controller
     public function destroy($id)
     {
         auth()->user()->studies()->detach($id);
+        auth()->user()->activities()->create([
+            'lesson_id' => 0,
+            'content'   => auth()->user()->name . ' stopped studying set: ' . Set::find($id)->name,
+            'activity_type' => config('enums.activity_types.SET_FOLLOWED')
+        ]);
         return redirect()->back();
     }
 }

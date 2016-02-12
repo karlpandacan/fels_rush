@@ -6,6 +6,7 @@ use Illuminate\Http\Request;
 use App\Http\Requests;
 use App\Models\User;
 use App\Http\Controllers\Controller;
+use Config;
 
 class FollowController extends Controller
 {
@@ -22,7 +23,7 @@ class FollowController extends Controller
         auth()->user()->activities()->create([
             'lesson_id' => 0,
             'content'   => auth()->user()->name . ' Followed ' . $followedUser->name,
-            'activity_type' => 'followed_user'
+            'activity_type' => config('enums.activity_types.FOLLOWED_USER')
         ]);
 
         return redirect()->back();
@@ -41,7 +42,7 @@ class FollowController extends Controller
         auth()->user()->activities()->create([
             'lesson_id' => 0,
             'content'   => auth()->user()->name . ' Unfollowed ' . $unfollowedUser->name,
-            'activity_type' => 'unfollowed_user'
+            'activity_type' => config('enums.activity_types.UNFOLLOWED_USER')
         ]);
 
         return redirect()->back();

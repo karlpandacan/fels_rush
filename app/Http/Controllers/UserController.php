@@ -53,7 +53,9 @@ class UserController extends Controller
 
     public function show(User $user)
     {
-        $activities = $user->activities()->latest()->paginate(15);
+        $activities = ($user->isAdmin() ? Activity::orderBy('id', 'desc') : $user->activities()->latest());
+        $activities = $activities->paginate(15);
+
         $learnedWords = $user->learnedWords()->count();
         if (auth()->user()->id == $user->id) {
             $follow = 'self';
@@ -110,7 +112,7 @@ class UserController extends Controller
         }
         return redirect('/users/search');
     }
-    
+
     public function search(Request $request)
     {
         $wildcard = $request->q;

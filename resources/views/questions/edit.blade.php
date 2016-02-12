@@ -58,7 +58,7 @@
                                         <div class="row">
                                             <div class="col-md-5"></div>
                                             <div class="col-md-2">
-                                                {!! Form::button(' Add Option', [
+                                                {!! Form::button(' Add Card', [
                                                     'class' => 'glyphicon glyphicon-plus btn btn-success',
                                                     'onclick' => 'cloneRow();'
                                                 ]) !!}

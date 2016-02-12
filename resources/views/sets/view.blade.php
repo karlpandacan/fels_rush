@@ -86,7 +86,7 @@
                                                     <button id="btn-unlearn-{{ $word->id }}" type="button" class="btn btn-warning" onClick="unLearnWord( {{ $word->id }} ) ">Unlearn</button>
                                                 </div>
                                                 <div id="learn-btn-{{ $word->id }}" {!! in_array($word->id, $learnedWordsArr) ? 'style="display: none"'  : '' !!}>
-                                                    <button id="btn-learn-{{ $word->id }} type="button" class="btn btn-success" onClick="learnWord( {{ $word->id }} ) ">Learn</button>
+                                                    <button id="btn-learn-{{ $word->id }}" type="button" class="btn btn-success" onClick="learnWord( {{ $word->id }} ) ">Learn</button>
                                                 </div>
                                             </div>
                                         </div>

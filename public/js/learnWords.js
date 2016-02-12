@@ -34,7 +34,6 @@ function unLearnWord(id)
         data: {
             _method: 'delete',
             _token: CSRF_TOKEN
-
         },
         beforeSend: function(data){
             $('#btn-unlearn-'+id).prop('disabled', true);

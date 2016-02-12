@@ -60,7 +60,12 @@
                                         </td>
                                         <td class="col-xs-7 text-left">
                                             <span style=font-size:1.3em>
-                                                <b>{{ $set->name }}</b>
+                                                <b>
+                                                    {{ $set->name }}
+                                                    @if($set->total)
+                                                        ( {{ $set->total }} user/s studying )
+                                                    @endif
+                                                </b>
                                             </span> <br>
                                                 by {{ link_to_route('users.show', $user->name, $user->id, null) }}
                                                 with {{  count($set->words) }} Cards

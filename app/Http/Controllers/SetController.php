@@ -9,6 +9,7 @@ use App\Http\Controllers\Controller;
 use App\Models\User;
 use App\Models\Set;
 use App\Models\Category;
+use App\Models\Study;
 use Auth;
 use Session;
 use Config;
@@ -161,9 +162,7 @@ class SetController extends Controller
 
     public function search(Request $request)
     {
-        dd($this->setPopular()->get());
         $user = auth()->user();
-//        dd(Set::with('users')->get());
         $learnedWords = $user->learnedWords()->count();
         $followers = $user->followees()->notAdmin()->count();
         $following = $user->followers()->notAdmin()->count();
@@ -179,9 +178,11 @@ class SetController extends Controller
         }
         if(isset($request->filter) and $request->filter != 'latest'){
             if($request->filter == 'pop') {
-                $setsIni = $setsIni->with(['usersCount' => function ($query) {
-                    $query->orderBy('aggregate', 'desc');
-                }]);
+                $setsIni = $setsIni->where('name', 'LIKE', '%'.$request->q.'%')
+                    ->leftJoin('studies', 'sets.id', '=', 'studies.set_id')
+                    ->selectRaw('count(studies.set_id) as total, studies.*, sets.*')
+                    ->groupBy('sets.id')
+                    ->orderBy('total', 'desc');
             } else {
                 $setsIni = $setsIni->where('recommended', 1)->latest();
             }

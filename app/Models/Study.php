@@ -1,6 +1,6 @@
 <?php
 
-namespace App;
+namespace App\Models;
 
 use Illuminate\Database\Eloquent\Model;
 
@@ -13,12 +13,8 @@ class Study extends Model
         return $this->belongsTo(User::class, 'user_id');
     }
 
-    public function set()
+    public function sets()
     {
-        return $this->belongsTo(Set::class, 'set_id');
-    }
-
-    public function scopePublicAndMe($query){
-
+        return $this->hasMany(Set::class, 'set_id');
     }
 }

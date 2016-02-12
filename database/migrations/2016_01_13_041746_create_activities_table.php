@@ -21,9 +21,11 @@ class CreateActivitiesTable extends Migration
                 'exam_taken',
                 'followed_user',
                 'unfollowed_user',
-                'lesson_created',
-                'lesson_updated',
-                'lesson_deleted'
+                'set_created',
+                'set_updated',
+                'set_deleted',
+                'set_followed',
+                'set_unfollowed'
             ]);
             $table->timestamps();
         });

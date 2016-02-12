@@ -5,9 +5,11 @@ return [
         'EXAM_TAKEN' => 'exam_taken',
         'FOLLOWED_USER' => 'followed_user',
         'UNFOLLOWED_USER' => 'unfollowed_user',
-        'LESSON_CREATED' => 'lesson_created',
-        'LESSON_UPDATED' => 'lesson_updated',
-        'LESSON_DELETED' => 'lesson_deleted'
+        'SET_CREATED' => 'set_created',
+        'SET_UPDATED' => 'set_updated',
+        'SET_DELETED' => 'set_deleted',
+        'SET_FOLLOWED' => 'set_followed',
+        'SET_UNFOLLOWED' => 'set_unfollowed'
     ],
     'visibility_types' => [
         'me' => 'Me',

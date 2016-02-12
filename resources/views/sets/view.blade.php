@@ -1,3 +1,4 @@
+<script src="{{ url('/js/learnWords.js') }}"></script>
 @extends('layouts.app')
 
 @section('content')
@@ -81,18 +82,11 @@
                                                 </div>
                                             </div>
                                             <div class="col-md-2 text-center">
-                                                <div id="unlearn-btn-{{ $word->id }}" {{ (!in_array($word->id, $learnedWordsArr) ? 'style="display: none"' : '') }} >
-                                                    {{ Form::open([
-                                                        'method' => 'delete',
-                                                        'route' => ['learnedWords.destroy', $word->id]
-                                                    ]) }}
-                                                        {{ Form::submit('Unlearn', ['class' => 'btn btn-primary']) }}
+                                                <div id="unlearn-btn-{{ $word->id }}" {!! !in_array($word->id, $learnedWordsArr) ? 'style="display: none"'  : '' !!}>
+                                                    <button id="btn-unlearn-{{ $word->id }}" type="button" class="btn btn-warning" onClick="unLearnWord( {{ $word->id }} ) ">Unlearn</button>
                                                 </div>
-                                                <div id="learn-btn-{{ $word->id }}" {{ (in_array($word->id, $learnedWordsArr) ? 'style="display: none"' : '') }}>
-                                                    {{ Form::open(['method' => 'post', 'route' => 'learnedWords.store']) }}
-                                                        {{ Form::submit('Learn', ['class' => 'btn btn-success']) }}
-                                                        {{ Form::hidden('id', $word->id) }}
-                                                    {{ Form::close() }}
+                                                <div id="learn-btn-{{ $word->id }}" {!! in_array($word->id, $learnedWordsArr) ? 'style="display: none"'  : '' !!}>
+                                                    <button id="btn-learn-{{ $word->id }} type="button" class="btn btn-success" onClick="learnWord( {{ $word->id }} ) ">Learn</button>
                                                 </div>
                                             </div>
                                         </div>

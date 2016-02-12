@@ -6,6 +6,7 @@ use Illuminate\Http\Request;
 
 use App\Http\Requests;
 use App\Http\Controllers\Controller;
+use App\Models\User;
 use App\Models\Set;
 use App\Models\Category;
 use Auth;
@@ -63,9 +64,11 @@ class SetController extends Controller
 
     public function create()
     {
-        return view('sets.add', [
+        $user = auth()->user();
+        return view($user->isAdmin() ? 'sets.admin-add' : 'sets.add', [
+            'users' => $user->getUserIds(),
             'categories' => Category::first()->listCategories(),
-            'visibilities' => config('enums.visibility_types')
+            'visibilities' => config('enums.visibility_types'),
         ]);
     }
 

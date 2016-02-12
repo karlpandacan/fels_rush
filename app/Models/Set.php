@@ -9,7 +9,7 @@ use DB;
 class Set extends Model
 {
     use SoftDeletes;
-    protected $fillable = ['category_id', 'visible_to', 'user_id', 'recommended', 'name', 'description', 'image'];
+    protected $fillable = ['category_id', 'visible_to', 'user_id', 'recommended', 'name', 'description', 'image','aggregate'];
     protected $dates = ['deleted_at'];
 
     public function user()
@@ -115,6 +115,19 @@ class Set extends Model
     {
         return $query->orwhere('sets.user_id', $id)
             ->where('visible_to', 'me');
+    }
+
+    public function getSetPopular()
+    {
+        $query = "SELECT *, COUNT(st.set_id) AS cnt
+            FROM sets s
+            LEFT JOIN studies st
+            ON s.id = st.set_id
+            LEFT JOIN users u
+            ON u.id = s.user_id
+            GROUP BY set_id";
+
+        return DB::raw($query);
     }
 
 }

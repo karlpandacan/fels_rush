@@ -20,7 +20,7 @@ class SetsTableSeeder extends Seeder
                     'visible_to' => 'public',
                     'user_id' => $x,
                     'recommended' => rand(0, 1),
-                    'name' => $faker->country.' Language',
+                    'name' => $faker->country.' Set',
                     'description' => $faker->paragraph(3),
                     'image' => null,
                     'created_at' => date('Y-m-d H:i:s'),

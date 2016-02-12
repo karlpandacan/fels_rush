@@ -19,9 +19,9 @@
                     <div class="col-xs-4">
                         <h5>
                             {!!  HTML::decode(link_to_route(
-                                'words.search',
+                                'users.show',
                                 "Activities <span style=font-size:1.6em><br>".$learnedWords."</span>",
-                                $parameters = array('status' => 'learned'),
+                                $parameters = array('id' => $user->id),
                                 null
                             )) !!}
                         </h5>

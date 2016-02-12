@@ -23,6 +23,9 @@
                         {{ Form::select('category', $categories, ($selectedCategory == '' ? 'all' : $selectedCategory), ['class' => 'form-control input-sm']) }}
                     </div>
                     <div class="form-group">
+                        {{ Form::select('filter', ['latest' => 'Latest Sets', 'pop' => 'Popular', 'rec' => 'Recommended'], $filter, ['class' => 'form-control input-sm']) }}
+                    </div>
+                    <div class="form-group">
                         {{ Form::submit('Search', ['class' => 'btn btn-primary ']) }}
                     </div>
                     {{ Form::close() }}

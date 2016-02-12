@@ -65,8 +65,8 @@
                 <div class="collapse navbar-collapse" id="app-navbar-collapse">
                     <!-- Left Side Of Navbar -->
                     <ul class="nav navbar-nav">
-                        <li class="{{ Request::is('home') ? 'active' : '' }}"><a href="{{ url('/home') }}">Home</a></li>
                         @if (!auth()->guest())
+                                <li class="{{ Request::is('home') ? 'active' : '' }}"><a href="{{ url('/home') }}">Home</a></li>
                                 <li class="{{ Request::is('users*') ? 'active' : '' }}">
                                     <a href="{{ url('/users') }}">Users</a>
                                 </li>

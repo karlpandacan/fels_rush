@@ -23,6 +23,9 @@
                         {{ Form::select('category', $categories, ($selectedCategory == '' ? 'all' : $selectedCategory), ['class' => 'form-control input-sm']) }}
                     </div>
                     <div class="form-group">
+                        {{ Form::select('filter', ['latest' => 'Latest Sets', 'pop' => 'Popular', 'rec' => 'Recommended'], $filter, ['class' => 'form-control input-sm']) }}
+                    </div>
+                    <div class="form-group">
                         {{ Form::submit('Search', ['class' => 'btn btn-primary ']) }}
                     </div>
                     {{ Form::close() }}
@@ -75,7 +78,7 @@
                                 </tbody>
                             </table>
                             <div class="row">
-                                {!! $sets->appends(['q' => $wildcard, 'category' => $selectedCategory])->links() !!}
+                                {!! $sets->appends(['q' => $wildcard, 'category' => $selectedCategory, 'filter' => $filter])->links() !!}
                             </div>
 
                         @else

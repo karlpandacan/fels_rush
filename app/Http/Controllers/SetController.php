@@ -161,8 +161,9 @@ class SetController extends Controller
 
     public function search(Request $request)
     {
+        dd($this->setPopular()->get());
         $user = auth()->user();
-
+//        dd(Set::with('users')->get());
         $learnedWords = $user->learnedWords()->count();
         $followers = $user->followees()->notAdmin()->count();
         $following = $user->followers()->notAdmin()->count();
@@ -173,21 +174,27 @@ class SetController extends Controller
         if(isset($request->category) and $request->category != 'all') {
             $setsIni = $setsIni->where('category_id', $request->category);
         }
-
-        if($user->isAdmin()) {
-            $setsIni = $setsIni
-                ->latest()
-                ->paginate(10);
-        }else {
-            $setsIni = $setsIni
-                ->availableSets($followingIds, $user->id)
-                ->latest()
-                ->paginate(10);
+        if(!$user->isAdmin()) {
+            $setsIni = $setsIni->availableSets($followingIds, $user->id);
         }
+        if(isset($request->filter) and $request->filter != 'latest'){
+            if($request->filter == 'pop') {
+                $setsIni = $setsIni->with(['usersCount' => function ($query) {
+                    $query->orderBy('aggregate', 'desc');
+                }]);
+            } else {
+                $setsIni = $setsIni->where('recommended', 1)->latest();
+            }
+        } else {
+            $setsIni = $setsIni->latest();
+        }
+        $setsIni = $setsIni
+            ->paginate(20);
 
         $sets = $setsIni;
+//        dd($sets);
         $categories = Category::lists('name', 'id');
-        $categories['all'] = 'All';
+        $categories['all'] = 'All Category';
         return view('sets/search',[
             'sets' => $sets,
             'user' => $user,
@@ -197,7 +204,8 @@ class SetController extends Controller
             'wildcard' => $request->q,
             'categories' => $categories,
             'followedSets' => $user->studies()->lists('sets.id')->toArray(),
-            'selectedCategory' => $request->category
+            'selectedCategory' => $request->category,
+            'filter' => $request->filter
         ]);
     }
 }

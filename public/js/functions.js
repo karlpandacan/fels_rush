@@ -35,10 +35,6 @@ function countRows()
         rows[0].setAttribute('disabled', null);
     } else if(rows.length > 1) {
         for(i = 0; i < rows.length; i++) {
-            if(rows[i].hasAttribute('disabled')) {
-                continue;
-            }
-
             rows[i].removeAttribute('disabled');
         }
     }

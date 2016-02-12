@@ -40,7 +40,7 @@
                                     </p>
                                 </div>
                             @endif
-                            @if(auth()->user()->isAdmin())
+                            @if(auth()->user()->isAdmin() && auth()->id() != $user->id)
                                 <div class="col-xs-2 text-right">
                                     <p>
                                         {!! Form::open(['method' => 'delete', 'route' => ['users.destroy', $user->id]]) !!}

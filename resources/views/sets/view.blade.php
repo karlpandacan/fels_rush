@@ -21,6 +21,12 @@
                         <div class="row">
                             <span style=font-size:1.8em>
                                 {{ $set->name }}
+                                {{ link_to_route(
+                                    'sets.edit',
+                                    'Edit Info',
+                                    $set->id,
+                                    ['class' => 'btn btn-success']
+                                ) }}
                             </span>
                         </div>
                         <div class="row">

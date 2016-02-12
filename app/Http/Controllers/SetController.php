@@ -158,6 +158,7 @@ class SetController extends Controller
 
     public function search(Request $request)
     {
+        dd($this->setPopular()->get());
         $user = auth()->user();
 //        dd(Set::with('users')->get());
         $learnedWords = $user->learnedWords()->count();

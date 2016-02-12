@@ -22,14 +22,6 @@ class Set extends Model
         return $this->belongsToMany(User::class, 'studies', 'set_id', 'user_id');
     }
 
-    public function usersCount() // allows you to eager load
-    {
-        return $this->users()
-            ->selectRaw('set_id, count(*) as aggregate')
-            ->groupBy('set_id');
-    }
-
-
     public function category()
     {
         return $this->belongsTo(Category::class);
@@ -123,6 +115,19 @@ class Set extends Model
     {
         return $query->orwhere('sets.user_id', $id)
             ->where('visible_to', 'me');
+    }
+
+    public function getSetPopular()
+    {
+        $query = "SELECT *, COUNT(st.set_id) AS cnt
+            FROM sets s
+            LEFT JOIN studies st
+            ON s.id = st.set_id
+            LEFT JOIN users u
+            ON u.id = s.user_id
+            GROUP BY set_id";
+
+        return DB::raw($query);
     }
 
 }

@@ -119,4 +119,14 @@ class User extends Authenticatable
     {
         return $query->where('type', '!=', '1');
     }
+
+    public function getStudyProgress()
+    {
+        return $this->studies()
+            ->leftJoin('words', 'words.set_id', '=', 'sets.id')
+            ->leftJoin('learned_words', 'learned_words.word_id', '=', 'words.id')
+            ->selectRaw('sets.*, count(words.id) as total_words, count(learned_words.id) as learned_words')
+            ->groupBy('id')
+            ->orderBy('learned_words', 'desc');
+    }
 }

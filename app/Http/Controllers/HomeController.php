@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Models\Activity;
+use App\Models\Study;
 use App\Models\Set;
 use App\Http\Requests;
 
@@ -44,12 +45,13 @@ class HomeController extends Controller
         $following = $user->followers()->notAdmin()->count();
         return view('home')
             ->with('user', $user)
-            ->with('activities', $activities)
+            // ->with('activities', $activities)
             ->with('followers', $followers)
             ->with('following', $following)
             ->with('learnedWords', $learnedWords)
             ->with('activitiesFollow', $activitiesFollow)
             ->with('followed_sets', $user->getSetsFollowed()->toArray())
-            ->with('recommendedSets', $recommendedSets);
+            ->with('recommendedSets', $recommendedSets)
+            ->with('studyProgress', $user->getStudyProgress()->get());
     }
 }

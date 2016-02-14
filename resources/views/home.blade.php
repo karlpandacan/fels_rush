@@ -17,8 +17,8 @@
                 <h2>Activities</h2>
                 <table class="table">
                     <tbody>
-                    @if (count($activities) > 0)
-                        @foreach ($activities as $activity)
+                    @if (count($studyProgress) > 0)
+                        @foreach ($studyProgress as $study)
                             <tr>
                                 <td align="right">
                                     @if(!empty($user->avatar))
@@ -28,19 +28,19 @@
                                     @endif
                                 </td>
                                 <td>
-                                    {{ $activity->user->name }} <br>
-                                    {{ $activity->content }}
-                                    - {{ $activity->created_at->format('Y/m/d') }}
-                                    @if($activity->lesson_id != 0 && $activity->user_id == auth()->id())
-                                        {{ link_to('results/' . $activity->lesson_id,
-                                            'Review Exam',
-                                            ['class' => 'btn btn-primary'])
-                                        }}
+                                    <b>{{ link_to_route('sets.show', $study->name, $study->id) }}</b> (
+                                    @if($study->learned_words == 0)
+                                        0 %
+                                    @else
+                                        {{ 
+                                            round($study->learned_words / $study->total_words * 100)
+                                        }} %
                                     @endif
+                                     done)<br>
+                                    {{ $study->learned_words }} of {{ $study->total_words }} words learned.
                                 </td>
                             </tr>
                         @endforeach
-                        {!! $activities->render() !!}
                     @else
                         <h3>No Record Found</h3>
                     @endif

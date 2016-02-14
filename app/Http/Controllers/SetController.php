@@ -193,7 +193,6 @@ class SetController extends Controller
             ->paginate(20);
 
         $sets = $setsIni;
-//        dd($sets);
         $categories = Category::lists('name', 'id');
         $categories['all'] = 'All Category';
         return view('sets/search',[

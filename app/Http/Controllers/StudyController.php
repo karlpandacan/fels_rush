@@ -59,7 +59,8 @@ class StudyController extends Controller
             'learnedWords' => $learnedWords,
             'activitiesFollow' => $activitiesFollow,
             'followed_sets' => $user->getSetsFollowed()->toArray(),
-            'recommendedSets' => $recommendedSets
+            'recommendedSets' => $recommendedSets,
+            'studyProgress' => $user->getStudyProgress()->get()
         ]);
     }
 

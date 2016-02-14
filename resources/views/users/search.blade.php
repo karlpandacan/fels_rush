@@ -19,7 +19,7 @@
                 <div class="col-md-9">
                     <div class="col-md-12 text-center">
                         @if(auth()->user()->isAdmin())
-                            <p>{{ link_to_route('users.create', 'Create New User', null, ['class' => 'btn btn-success']) }}</p>
+                        <p>{{ link_to_route('users.create', 'Create New User', null, ['class' => 'btn btn-success']) }}</p>
                         @endif
                     </div>
 

@@ -34,7 +34,7 @@
                             </div>
                             <div class="form-group">
                                 {!! Form::label('type', 'User Type') !!}
-                                {!! Form::select('type', array('0' => 'User', '1' => 'Admin'), ['class' => 'form-control']) !!}
+                                {!! Form::select('type', ['0' => 'User', '1' => 'Admin'], null, ['class' => 'form-control']) !!}
                             </div>
                             <div class="form-group">
                                 {!! Form::label('image', 'Profile Picture') !!}

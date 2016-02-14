@@ -9,7 +9,6 @@ use App\Http\Controllers\Controller;
 use App\Models\User;
 use App\Models\Set;
 use App\Models\Category;
-use App\Models\Activity;
 use App\Models\Study;
 use Auth;
 use Session;
@@ -33,8 +32,6 @@ class SetController extends Controller
         $followers = $user->followees()->notAdmin()->count();
         $following = $user->followers()->notAdmin()->count();
         if(auth()->user()->isAdmin()) {
-            $recommendedSets = Set::where('recommended', 1)->paginate(5);
-            $sets = Set::with('user')->paginate(20);
             return view('sets.admin-home', [
                 'user' => $user,
                 'activities' => $activities,
@@ -67,7 +64,7 @@ class SetController extends Controller
         if(!$user->isAdmin()) {
             return view('sets.recommended', [
                 'followed_sets' => $user->getSetsFollowed()->toArray(),
-                'recommendedSets' => Set::where('recommended', 1)->with('user')->get()
+                'recommendedSets' => Set::where('recommended', 1)->with('user')->paginate(20)
             ]);
         }
 

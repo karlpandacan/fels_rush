@@ -12,8 +12,8 @@
         </div>
     </div>
     <div class="col-sm-9 text-left">
-        <div class="panel panel-info">
-            <div class="panel-body">
+        <div class="panel panel-default">
+            <div class="panel-body panel-default">
                 <h2>Activities</h2>
                 <table class="table">
                     <tbody>

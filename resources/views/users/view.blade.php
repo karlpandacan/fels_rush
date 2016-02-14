@@ -15,7 +15,7 @@
                     </div>
                     <div class="col-xs-9">
                         <div class="row text-right">
-                            @if($follow != 'self')
+                            @if($follow != 'self' && !auth()->user()->isAdmin())
                                 <div class="col-xs-2 text-right">
                                     <p>
                                         @if($follow == 'following')

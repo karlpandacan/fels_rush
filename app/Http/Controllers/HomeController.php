@@ -31,11 +31,11 @@ class HomeController extends Controller
         if($user->isAdmin()){
             $activities = Activity::notFollow()->latest()->paginate(15);
             $activitiesFollow = Activity::follow()->take(10)->latest()->get();
-            $recommendedSets = Set::where('recommended', 1)->paginate(5);
+            $recommendedSets = Set::where('recommended', 1)->simplePaginate(5);
         } else {
             $activities = Activity::userIds($followingIds)->notFollow()->latest()->paginate(15);
             $activitiesFollow = Activity::userIds($followingIds)->follow()->take(10)->latest()->get();
-            $recommendedSets = Set::where('recommended', 1)->availableSets($followingIds, $user->id)->paginate(5);
+            $recommendedSets = Set::where('recommended', 1)->availableSets($followingIds, $user->id)->simplePaginate(5);
         }
 
         $activities->load('user');

@@ -31,6 +31,9 @@
                     @else
                         <p>No Recommended Sets Found.</p>
                     @endif
+                    <div class="col-xs-12 text-center">
+                        <b>Page {{ $recommendedSets->currentPage() }}</b>
+                    </div>
                     {{ $recommendedSets->render() }}
                 </div>
             </div>

@@ -74,17 +74,13 @@ class Set extends Model
             'visible_to' => $values->input('set_visibility'),
             'user_id' => $values->user_id,
             'name' => $values->input('set_name'),
-            'description' => $values->input('set_desc')
+            'description' => $values->input('set_desc'),
+            'image' => $this->saveImage($values)
         ];
 
         if(!empty($values->input('owned_by'))) {
             $data['user_id'] = $values->input('owned_by');
         }
-
-        if(!empty($values->file('set_image'))) {
-            $data['image'] = $this->saveImage($data, $values);
-        }
-
         if($values->input('set_id') == null) {
             $this->firstOrCreate($data);
         } else {
@@ -92,15 +88,20 @@ class Set extends Model
         }
     }
 
-    public function saveImage($data, $values)
+    public function saveImage($values)
     {
-        $imageName = $this->image;
-        if(empty($imageName)) {
-            $imageName = uniqid() . '.' . $values->file('set_image')->getClientOriginalExtension(); // Create new name;
+        $path = 'images/uploads/sets/';
+        if ($values->hasFile('set_image')) {
+            $file = $values->file('set_image');
+            $filename = $path . md5(date('Y-m-d H:i:s:u')) . $file->getClientOriginalName();
+            if(!file_exists($path)){
+                mkdir($path, 0777, true);
+            }
+            move_uploaded_file($file, $filename);
+            return $filename;
+        } else {
+            return '';
         }
-
-        $values->file('set_image')->move(base_path() . '/public/images/sets/', $imageName);
-        return $imageName;
     }
 
     public function scopeAvailableSets($query, $ids, $id)

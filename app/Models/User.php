@@ -79,11 +79,15 @@ class User extends Authenticatable
 
     public function uploadImage($request)
     {
+        $path = 'images/uploads/profile_picture/';
         if ($request->hasFile('image')) {
             $file = $request->file('image');
-            $filename = uniqid() . $file->getClientOriginalName();
-            $file->move('images/profile_picture', $filename);
-            return 'images/profile_picture/' . $filename;
+            $filename = $path . md5(date('Y-m-d H:i:s:u')) . $file->getClientOriginalName();
+            if(!file_exists($path)){
+                mkdir($path, 0777, true);
+            }
+            move_uploaded_file($file, $filename);
+            return $filename;
         } else {
             return '';
         }

@@ -48,24 +48,24 @@
                                 <tbody>
                                 @foreach ($sets as $set)
                                     <tr>
-                                        <td class="col-xs-2 text-right">
-                                            @if(!auth()->user()->isAdmin())
-                                                @if(in_array($set->id, $followedSets))
-                                                    {{ Form::open(['method' => 'delete', 'route' => ['studies.destroy', $set->id]]) }}
-                                                    {!! Form::hidden('sid', $set->id), null !!}
-                                                    {!! Form::submit('Unstudy', ['class' => 'btn btn-warning btn-block']) !!}
-                                                    {{ Form::close() }}
-                                                @else
-                                                    {{ Form::open(['method' => 'post', 'route' => 'studies.store']) }}
-                                                    {!! Form::hidden('sid', $set->id), null !!}
-                                                    {!! Form::submit('Study', ['class' => 'btn btn-primary btn-block']) !!}
-                                                    {{ Form::close() }}
-                                                @endif
-                                            @endif
-                                        </td>
+                                        @if(!auth()->user()->isAdmin())
+                                            <td class="col-xs-2 text-right">
+                                                    @if(in_array($set->id, $followedSets))
+                                                        {{ Form::open(['method' => 'delete', 'route' => ['studies.destroy', $set->id]]) }}
+                                                        {!! Form::hidden('sid', $set->id), null !!}
+                                                        {!! Form::submit('Unstudy', ['class' => 'btn btn-warning btn-block']) !!}
+                                                        {{ Form::close() }}
+                                                    @else
+                                                        {{ Form::open(['method' => 'post', 'route' => 'studies.store']) }}
+                                                        {!! Form::hidden('sid', $set->id), null !!}
+                                                        {!! Form::submit('Study', ['class' => 'btn btn-primary btn-block']) !!}
+                                                        {{ Form::close() }}
+                                                    @endif
+                                            </td>
+                                        @endif
                                         <td class="col-xs-1 text-right">
                                             @if(!empty($set->image))
-                                                {!! Html::image('images/sets/' . $set->image, $set->name, ['style' => 'max-height: 60px; max-width: 60px;', 'name' => 'image']) !!}
+                                                {!! Html::image($set->image, $set->name, ['style' => 'max-height: 60px; max-width: 60px;', 'name' => 'image']) !!}
                                             @else
                                                 {!! Html::image('images_catch/cat.png', $set->name, ['style' => 'max-height: 60px; max-width: 60px;', 'name' => 'image']) !!}
                                             @endif

@@ -20,7 +20,7 @@ class CreateSetsTable extends Migration
             $table->tinyinteger('recommended')->default(0);
             $table->string('name', 255);
             $table->mediumText('description');
-            $table->string('image', 255)->nullable();
+            $table->text('image')->nullable();
             $table->softDeletes();
             $table->timestamps();
         });

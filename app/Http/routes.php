@@ -27,6 +27,7 @@ Route::get('/', function () {
 */
 
 Route::group(['middleware' => 'web'], function () {
+
     Route::auth();
 
     Route::get('/users/search', ['as' => 'users.search', 'uses' => 'UserController@search']);

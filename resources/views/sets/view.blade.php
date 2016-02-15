@@ -56,47 +56,46 @@
                             <br>
                             @foreach($set->words as $word)
                                 @if(!in_array($word->id, $learnedWordsArr))
-                                <div class="panel panel-default">
-                                    <div class="panel-body">
-                                        <div class="row">
-                                            <div class="col-md-1 text-center">
-                                                {{ $cnt = (isset($cnt) ? $cnt : 0) + 1 }}
-                                            </div>
-                                            <div class="col-md-3 text-center">
-                                                {{ $word->word_original }}
-                                            </div>
-                                            <div class="col-md-4 text-center" id="{{ $word->id }}">
+                                    <div class="panel panel-default">
+                                        <div class="panel-body">
+                                            <div class="row">
+                                                <div class="col-md-1 text-center">
+                                                    {{ $cnt = (isset($cnt) ? $cnt : 0) + 1 }}
+                                                </div>
+                                                <div class="col-md-3 text-center">
+                                                    {{ $word->word_original }}
+                                                </div>
+                                                <div class="col-md-4 text-center" id="{{ $word->id }}">
 
-                                            </div>
-                                            <div id="hide-btn-{{ $word->id }}" style="display: none">
-                                                <div class="col-md-2 text-center">
-                                                    <button class="btn btn-block btn-info" onClick="$('#{{ $word->id }}').html('');$('#hide-btn-{{ $word->id }}').hide(); $('#show-btn-{{ $word->id }}').show();">
-                                                        Hide Answer
-                                                    </button>
                                                 </div>
-                                            </div>
-                                            <div id="show-btn-{{ $word->id }}">
-                                                <div class="col-md-2 text-center">
-                                                    <button class="btn btn-block btn-primary" onClick="$('#{{ $word->id }}').html('{{ $word->word_translated }}' );$('#hide-btn-{{ $word->id }}').show(); $('#show-btn-{{ $word->id }}').hide();">
-                                                        Show Answer
-                                                    </button>
+                                                <div id="hide-btn-{{ $word->id }}" style="display: none">
+                                                    <div class="col-md-2 text-center">
+                                                        <button class="btn btn-block btn-info" onClick="$('#{{ $word->id }}').html('');$('#hide-btn-{{ $word->id }}').hide(); $('#show-btn-{{ $word->id }}').show();">
+                                                            Hide Answer
+                                                        </button>
+                                                    </div>
                                                 </div>
-                                            </div>
-                                            <div class="col-md-2 text-center">
+                                                <div id="show-btn-{{ $word->id }}">
+                                                    <div class="col-md-2 text-center">
+                                                        <button class="btn btn-block btn-primary" onClick="$('#{{ $word->id }}').html('{{ $word->word_translated }}' );$('#hide-btn-{{ $word->id }}').show(); $('#show-btn-{{ $word->id }}').hide();">
+                                                            Show Answer
+                                                        </button>
+                                                    </div>
+                                                </div>
+                                                <div class="col-md-2 text-center">
                                                     @if(!auth()->user()->isAdmin())
-                                                <div id="unlearn-btn-{{ $word->id }}" {!! !in_array($word->id, $learnedWordsArr) ? 'style="display: none"'  : '' !!}>
-                                                    <button id="btn-unlearn-{{ $word->id }}" type="button" class="btn btn-warning" onClick="unLearnWord( {{ $word->id }} ) ">Unlearn</button>
-                                                </div>
-                                                <div id="learn-btn-{{ $word->id }}" {!! in_array($word->id, $learnedWordsArr) ? 'style="display: none"'  : '' !!}>
+                                                        <div id="unlearn-btn-{{ $word->id }}" {!! !in_array($word->id, $learnedWordsArr) ? 'style="display: none"'  : '' !!}>
+                                                            <button id="btn-unlearn-{{ $word->id }}" type="button" class="btn btn-warning" onClick="unLearnWord( {{ $word->id }} ) ">Unlearn</button>
+                                                        </div>
+                                                        <div id="learn-btn-{{ $word->id }}" {!! in_array($word->id, $learnedWordsArr) ? 'style="display: none"'  : '' !!}>
                                                             <button id="btn-learn-{{ $word->id }} type="button" class="btn btn-success" onClick="learnWord( {{ $word->id }} ) ">Learn</button>
-                                                </div>
+                                                        </div>
                                                     @endif
+                                                </div>
                                             </div>
                                         </div>
                                     </div>
-                                </div>
-                                <br>
-                                @endif
+                                    <br>
                             @endforeach
                         @else
                             <p>

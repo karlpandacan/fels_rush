@@ -23,13 +23,36 @@ class SetController extends Controller
 
     public function index()
     {
+        $user = auth()->user();
+        $followingIds = $user->followers()->lists('follows.follower_id');
+        $followingIds->push($user->id);
+        $activities = Activity::notFollow()->latest()->paginate(15);
+        $activities->load('user');
+        $learnedWords = $user->learnedWords()->count();
+        $followers = $user->followees()->notAdmin()->count();
+        $following = $user->followers()->notAdmin()->count();
         if(auth()->user()->isAdmin()) {
             return view('sets.admin-home', [
-                'sets' => Set::with('user')->paginate(20)
+                'user' => $user,
+                'activities' => $activities,
+                'followers' => $followers,
+                'following' => $following,
+                'learnedWords' => $learnedWords,
+                'recommendedSets' => $recommendedSets,
+                'sets' => $sets
             ]);
         } else {
+            $recommendedSets = Set::where('recommended', 1)->availableSets($followingIds, $user->id)->paginate(5);
+            $sets = auth()->user()->sets()->with('words')->paginate(20);
+            $sets->load('users');
             return view('sets.home', [
-                'sets' => auth()->user()->sets()->with('words')->paginate(20),
+                'user' => $user,
+                'activities' => $activities,
+                'followers' => $followers,
+                'following' => $following,
+                'learnedWords' => $learnedWords,
+                'recommendedSets' => $recommendedSets,
+                'sets' => $sets,
                 'followed_sets' => auth()->user()->getSetsFollowed()->toArray()
             ]);
         }

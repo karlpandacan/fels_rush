@@ -17,13 +17,11 @@
         <div class="panel panel-default">
             <div class="panel-body">
                 <div class="col-md-9">
-                    @if(auth()->user()->isAdmin())
-                        <div class="col-md-12 text-center">
-                            <p>
-                                {{ link_to_route('users.create', 'Create New User', null, ['class' => 'btn btn-success']) }}
-                            </p>
-                        </div>
-                    @endif
+                    <div class="col-md-12 text-center">
+                        @if(auth()->user()->isAdmin())
+                        <p>{{ link_to_route('users.create', 'Create New User', null, ['class' => 'btn btn-success']) }}</p>
+                        @endif
+                    </div>
 
                     @if(!auth()->user()->isadmin())
                         <ul class="nav nav-tabs" role="tablist">

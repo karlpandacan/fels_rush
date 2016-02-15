@@ -25,11 +25,11 @@ class SetController extends Controller
     {
         if(auth()->user()->isAdmin()) {
             return view('sets.admin-home', [
-                'sets' => Set::with('user')->paginate(6)
+                'sets' => Set::with('user')->paginate(20)
             ]);
         } else {
             return view('sets.home', [
-                'sets' => auth()->user()->sets()->with('words')->paginate(6),
+                'sets' => auth()->user()->sets()->with('words')->paginate(20),
                 'followed_sets' => auth()->user()->getSetsFollowed()->toArray()
             ]);
         }
@@ -41,7 +41,7 @@ class SetController extends Controller
         if(!$user->isAdmin()) {
             return view('sets.recommended', [
                 'followed_sets' => $user->getSetsFollowed()->toArray(),
-                'recommendedSets' => Set::where('recommended', 1)->with('user')->get()
+                'recommendedSets' => Set::where('recommended', 1)->with('user')->paginate(20)
             ]);
         }
 
@@ -193,7 +193,6 @@ class SetController extends Controller
             ->paginate(20);
 
         $sets = $setsIni;
-//        dd($sets);
         $categories = Category::lists('name', 'id');
         $categories['all'] = 'All Category';
         return view('sets/search',[

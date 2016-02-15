@@ -32,6 +32,9 @@
                 </div>
                 <br>
                 <div class="row">
+                    <div class="col-xs-12 text-center">
+                        <h4>Showing {{$sets->count() }} of {{ $sets->total() }}</h4>
+                    </div>
                     <div class="col-sm-12">
                         @if (count($sets) > 0)
                             <table class="table">
@@ -39,16 +42,18 @@
                                 @foreach ($sets as $set)
                                     <tr>
                                         <td class="col-xs-2 text-right">
-                                            @if(in_array($set->id, $followedSets))
-                                                {{ Form::open(['method' => 'delete', 'route' => ['studies.destroy', $set->id]]) }}
-                                                {!! Form::hidden('sid', $set->id), null !!}
-                                                {!! Form::submit('Unstudy', ['class' => 'btn btn-warning btn-block']) !!}
-                                                {{ Form::close() }}
-                                            @else
-                                                {{ Form::open(['method' => 'post', 'route' => 'studies.store']) }}
-                                                {!! Form::hidden('sid', $set->id), null !!}
-                                                {!! Form::submit('Study', ['class' => 'btn btn-primary btn-block']) !!}
-                                                {{ Form::close() }}
+                                            @if(!auth()->user()->isAdmin())
+                                                @if(in_array($set->id, $followedSets))
+                                                    {{ Form::open(['method' => 'delete', 'route' => ['studies.destroy', $set->id]]) }}
+                                                    {!! Form::hidden('sid', $set->id), null !!}
+                                                    {!! Form::submit('Unstudy', ['class' => 'btn btn-warning btn-block']) !!}
+                                                    {{ Form::close() }}
+                                                @else
+                                                    {{ Form::open(['method' => 'post', 'route' => 'studies.store']) }}
+                                                    {!! Form::hidden('sid', $set->id), null !!}
+                                                    {!! Form::submit('Study', ['class' => 'btn btn-primary btn-block']) !!}
+                                                    {{ Form::close() }}
+                                                @endif
                                             @endif
                                         </td>
                                         <td class="col-xs-1 text-right">
@@ -61,7 +66,7 @@
                                         <td class="col-xs-7 text-left">
                                             <span style=font-size:1.3em>
                                                 <b>
-                                                    {{ $set->name }}
+                                                    {{ link_to_route('sets.show', $set->name, $set->id) }}
                                                     @if($set->total)
                                                         ( users studying: {{ $set->total }} )
                                                     @endif

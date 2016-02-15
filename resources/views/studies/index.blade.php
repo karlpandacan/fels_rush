@@ -30,10 +30,10 @@
                 <br>
                 <div class="row">
                     <div class="col-sm-12">
-                        @if (count($sets) > 0)
+                        @if (count($studyProgress) > 0)
                             <table class="table">
                                 <tbody>
-                                    @foreach ($sets as $set)
+                                    @foreach ($studyProgress as $set)
                                         <tr>
                                             <td class="col-xs-1 text-right">
                                                 {{ Form::open(['method' => 'delete', 'route' => ['studies.destroy', $set->id]]) }}
@@ -50,7 +50,15 @@
                                             </td>
                                             <td class="col-xs-8 text-left ">
                                                 <span style=font-size:1.3em>
-                                                    <b>{{ $set->name }}</b>
+                                                    <b>{{ $set->name }}</b> (
+                                                    @if($set->learned_words == 0)
+                                                        0 %
+                                                    @else
+                                                        {{ 
+                                                            round($set->learned_words / $set->total_words * 100)
+                                                        }} %
+                                                    @endif
+                                                     done)<br>
                                                 </span> <br>
                                                 by {{ link_to_route('users.show', $user->name, $user->id, null) }}
                                                 with {{  count($set->words) }} Cards

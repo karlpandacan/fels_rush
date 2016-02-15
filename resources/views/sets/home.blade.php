@@ -2,7 +2,7 @@
 @extends('layouts.app')
 @section('content')
     <div class="container">
-        <h1>My Sets</h1>
+        <h1>My Sets (total of {{ count($sets) }})</h1>
 
         @foreach($sets as $set)
             <div class="row">

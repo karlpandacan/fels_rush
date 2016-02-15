@@ -8,6 +8,7 @@ use App\Http\Requests;
 use App\Http\Controllers\Controller;
 use App\Models\User;
 use App\Models\Set;
+use App\Models\Activity;
 use App\Models\Category;
 use App\Models\Study;
 use Auth;
@@ -32,6 +33,9 @@ class SetController extends Controller
         $followers = $user->followees()->notAdmin()->count();
         $following = $user->followers()->notAdmin()->count();
         if(auth()->user()->isAdmin()) {
+            $recommendedSets = Set::where('recommended', 1)->paginate(5);
+            $sets = Set::with('words')->paginate(20);
+            $sets->load('users');
             return view('sets.admin-home', [
                 'user' => $user,
                 'activities' => $activities,
@@ -213,6 +217,7 @@ class SetController extends Controller
             $setsIni = $setsIni->latest();
         }
         $setsIni = $setsIni
+            ->with('users')
             ->paginate(20);
 
         $sets = $setsIni;
@@ -230,5 +235,14 @@ class SetController extends Controller
             'selectedCategory' => $request->category,
             'filter' => $request->filter
         ]);
+    }
+
+    public function getSets(){
+        if (auth()->user->isAdmin()) {
+            $recommendedSets = Set::where('recommended', 1)->availableSets($followingIds, $user->id)->paginate(5);
+        } else {
+            $recommendedSets = Set::where('recommended', 1)->availableSets($followingIds, $user->id)->paginate(5);
+        }
+        return $recommendedSets;
     }
 }

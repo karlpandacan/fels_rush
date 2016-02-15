@@ -13,6 +13,16 @@
     </div>
     <div class="col-sm-9 text-left">
         <div class="panel panel-default">
+            <div class="panel-heading">
+                <div class="row">
+                    <div class="col-xs-6">
+                        <div class="text-left">My Sets</div>
+                    </div>
+                    <div class="col-xs-6">
+                        <div class="text-right">Showing {{ $sets->firstItem().' to '.$sets->lastItem().' of '.$sets->total() }} </div>
+                    </div>
+                </div>
+            </div>
             <div class="panel-body">
                 <div class="row">
                     {{ Form::open(['url' => '/sets/search', 'method' => 'GET', 'class' => 'form-inline']) }}
@@ -32,9 +42,6 @@
                 </div>
                 <br>
                 <div class="row">
-                    <div class="col-xs-12 text-center">
-                        <h4>Showing {{$sets->count() }} of {{ $sets->total() }}</h4>
-                    </div>
                     <div class="col-sm-12">
                         @if (count($sets) > 0)
                             <table class="table">
@@ -60,21 +67,19 @@
                                             @if(!empty($set->image))
                                                 {!! Html::image('images/sets/' . $set->image, $set->name, ['style' => 'max-height: 60px; max-width: 60px;', 'name' => 'image']) !!}
                                             @else
-                                                {!! Html::image('images/cat_default.png', $set->name, ['style' => 'max-height: 60px; max-width: 60px;', 'name' => 'image']) !!}
+                                                {!! Html::image('images_catch/cat.png', $set->name, ['style' => 'max-height: 60px; max-width: 60px;', 'name' => 'image']) !!}
                                             @endif
                                         </td>
                                         <td class="col-xs-7 text-left">
                                             <span style=font-size:1.3em>
                                                 <b>
                                                     {{ link_to_route('sets.show', $set->name, $set->id) }}
-                                                    @if($set->total)
-                                                        ( users studying: {{ $set->total }} )
-                                                    @endif
                                                 </b>
                                             </span> <br>
-                                                by {{ link_to_route('users.show', $user->name, $user->id, null) }}
-                                                with {{  count($set->words) }} Cards
-                                                created on {{ $set->created_at->format('Y/m/d') }}
+                                                by {{ link_to_route('users.show', $user->name, $user->id, null) }} |
+                                                {{  count($set->words) }} Cards |
+                                                {{ count($set->users) }} Studying |
+                                                Created {{ $set->created_at->diffForHumans() }}
                                             <p>
                                                 {{ substr($set->description, 0, 65) }}
                                                 {{ (strlen($set->description) > 65 ? '...' : '') }}
@@ -87,13 +92,21 @@
                                 @endforeach
                                 </tbody>
                             </table>
-                            <div class="row">
-                                {!! $sets->appends(['q' => $wildcard, 'category' => $selectedCategory, 'filter' => $filter])->links() !!}
-                            </div>
-
                         @else
                             <h3>No Record Found</h3>
                         @endif
+                    </div>
+                </div>
+            </div>
+            <div class="panel-footer">
+                <div class="row">
+                    <div class="col-xs-12">
+                        <div class="text-center">
+                            {!! $sets->appends(['q' => $wildcard, 'category' => $selectedCategory, 'filter' => $filter])->links() !!}
+                            <p class="text-center">
+                                Showing {{ $sets->firstItem().' to '.$sets->lastItem().' of '.$sets->total() }}
+                            </p>
+                        </div>
                     </div>
                 </div>
             </div>

@@ -1,4 +1,4 @@
-<script src="/js/functions.js"></script>
+
 @extends('layouts.app')
 @section('content')
     <div class="container">

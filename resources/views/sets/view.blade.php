@@ -96,6 +96,7 @@
                                         </div>
                                     </div>
                                     <br>
+                                @endif
                             @endforeach
                         @else
                             <p>

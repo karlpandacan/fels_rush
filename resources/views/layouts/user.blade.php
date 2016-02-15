@@ -6,7 +6,7 @@
                     @if(!empty($user->avatar))
                         {!! Html::image($user->avatar, $user->name, ['class' => 'img-thumbnail', 'style' => 'min-height: 72px; min-width:72px']) !!}
                     @else
-                        {!! Html::image('images/user_default.jpg', $user->name, ['class' => 'img-thumbnail', 'style' => 'min-height: 72px; min-width:72px']) !!}
+                        {!! Html::image('images_catch/user.jpg', $user->name, ['class' => 'img-thumbnail', 'style' => 'min-height: 72px; min-width:72px']) !!}
                     @endif
                 </div>
                 <div class="col-xs-8">

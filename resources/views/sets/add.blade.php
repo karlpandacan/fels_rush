@@ -28,7 +28,7 @@
                 <div class="row">
                     <div class="form-group">
                         {!! Form::label('image', 'Current Image') !!}<br>
-                            {!! Html::image('images/cat_default.png', null, ['style' => 'max-height: 125px;', 'name' => 'image']) !!}
+                            {!! Html::image('images_catch/cat.png', null, ['style' => 'max-height: 125px;', 'name' => 'image']) !!}
                     </div>
                 </div>
 

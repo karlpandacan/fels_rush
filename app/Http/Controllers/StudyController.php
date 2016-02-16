@@ -27,6 +27,7 @@ class StudyController extends Controller
      */
     public function index(Request $request)
     {
+        $selectedCategory = isset($request->category) ? $request->category : 'all';
         $user = auth()->user();
         $learnedWords = $user->learnedWords()->count();
         $followers = $user->followees()->notAdmin()->count();
@@ -37,31 +38,28 @@ class StudyController extends Controller
         $categories = Category::lists('name', 'id');
         $categories['all'] = 'All';
         $recommendedSets = Set::where('recommended', 1)->with('user')->paginate(5);
-        // Eloquent of sets
-        $setsIni = $user->studies()
-            ->availableSets($followingIds, $user->id)
-            ->where('name', 'LIKE', '%'.$request->q.'%');
-        if(isset($request->category) and $request->category != 'all') {
-            $setsIni = $setsIni->where('category_id', $request->category);
-        }
-        $setsIni = $setsIni
-            ->latest()
-            ->paginate(10);
-        $sets = $setsIni;
-        $sets->load('words', 'users');
+        \DB::enableQueryLog();
+        $setInit = $user->getStudyProgress();
+        if($selectedCategory != 'all')
+            $setInit = $setInit->where('category_id', $selectedCategory);
+        if(isset($request->q))
+            $setInit = $setInit->where('sets.name', 'LIKE', '%'.$request->q.'%');
+        $sets = $setInit
+            ->with('words', 'users')
+            ->paginate(15);
+//        dd(\DB::getQueryLog());
         return view('studies.index',[
             'sets' => $sets,
             'user' => auth()->user(),
             'wildcard' => $request->q,
-            'selectedCategory' => $request->category,
+            'selectedCategory' => $selectedCategory,
             'followers' => $followers,
             'categories' => $categories,
             'following' => $following,
             'learnedWords' => $learnedWords,
             'activitiesFollow' => $activitiesFollow,
             'followed_sets' => $user->getSetsFollowed()->toArray(),
-            'recommendedSets' => $recommendedSets,
-            'studyProgress' => $user->getStudyProgress()->with('words', 'users')->get()
+            'recommendedSets' => $recommendedSets
         ]);
     }
 

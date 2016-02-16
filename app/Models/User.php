@@ -130,7 +130,7 @@ class User extends Authenticatable
             ->leftJoin('words', 'words.set_id', '=', 'sets.id')
             ->leftJoin('learned_words', 'learned_words.word_id', '=', 'words.id')
             ->selectRaw('sets.*, count(words.id) as total_words, count(learned_words.id) as learned_words')
-            ->groupBy('id')
+            ->groupBy('sets.id')
             ->orderBy('learned_words', 'desc');
     }
 }

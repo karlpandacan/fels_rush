@@ -19,7 +19,9 @@
                         <div class="text-left">My Sets</div>
                     </div>
                     <div class="col-xs-6">
-                        <div class="text-right">Showing {{ $sets->firstItem().' to '.$sets->lastItem().' of '.$sets->total() }} </div>
+                        @if (count($sets) > 0)
+                            <div class="text-right">Showing {{ $sets->firstItem().' to '.$sets->lastItem().' of '.$sets->total() }} </div>
+                        @endif
                     </div>
                 </div>
             </div>
@@ -93,23 +95,26 @@
                                 </tbody>
                             </table>
                         @else
-                            <h3>No Record Found</h3>
+                            <span style=font-size:2.0em>No Results Found</span>
                         @endif
                     </div>
                 </div>
             </div>
-            <div class="panel-footer">
-                <div class="row">
-                    <div class="col-xs-12">
-                        <div class="text-center">
-                            {!! $sets->appends(['q' => $wildcard, 'category' => $selectedCategory, 'filter' => $filter])->links() !!}
-                            <p class="text-center">
-                                Showing {{ $sets->firstItem().' to '.$sets->lastItem().' of '.$sets->total() }}
-                            </p>
+
+            @if (count($sets) > 0)
+                <div class="panel-footer">
+                    <div class="row">
+                        <div class="col-xs-12">
+                            <div class="text-center">
+                                    {!! $sets->appends(['q' => $wildcard, 'category' => $selectedCategory, 'filter' => $filter])->links() !!}
+                                    <p class="text-center">
+                                        Showing {{ $sets->firstItem().' to '.$sets->lastItem().' of '.$sets->total() }}
+                                    </p>
+                            </div>
                         </div>
                     </div>
                 </div>
-            </div>
+            @endif
         </div>
     </div>
 @endsection

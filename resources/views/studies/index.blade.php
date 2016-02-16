@@ -29,16 +29,18 @@
                         {{ Form::close() }}
                     </div>
                     <div class="col-sm-4 text-right">
-                        Showing {{ $sets->firstItem().' to '.$sets->lastItem().' of '.$sets->total() }}
+                        @if (count($sets) > 0)
+                            Showing {{ $sets->firstItem().' to '.$sets->lastItem().' of '.$sets->total() }}
+                        @endif
                     </div>
                 </div>
                 <br>
                 <div class="row">
                     <div class="col-sm-12">
-                        @if (count($studyProgress) > 0)
+                        @if (count($sets) > 0)
                             <table class="table">
                                 <tbody>
-                                    @foreach ($studyProgress as $set)
+                                    @foreach ($sets as $set)
                                         <tr>
                                             <td class="col-xs-1 text-right">
                                                 {{ Form::open(['method' => 'delete', 'route' => ['studies.destroy', $set->id]]) }}
@@ -82,14 +84,14 @@
                                 </tbody>
                             </table>
                         @else
-                            <h3>No Record Found</h3>
+                            <span style=font-size:2.0em>No Results Found</span>
                         @endif
                     </div>
                 </div>
             </div>
-            @if (count($studyProgress) > 0)
+            @if (count($sets) > 0)
                 <div class="panel-footer text-center">
-                    {!! $sets->appends(['q' => $wildcard, 'category' => $selectedCategory])->links() !!}
+                    {!! $sets->appends(['q' => $wildcard, 'category' => $sets])->links() !!}
                     <p class="text-center">
                         Showing {{ $sets->firstItem().' to '.$sets->lastItem().' of '.$sets->total() }}
                     </p>

@@ -18,7 +18,7 @@ class CategoriesTableSeeder extends Seeder
             'updated_at' => date('Y-m-d H:i:s')
         ];
         $data[] = [
-            'name' => 'Enlgish',
+            'name' => 'English',
             'created_at' => date('Y-m-d H:i:s'),
             'updated_at' => date('Y-m-d H:i:s')
         ];

@@ -13,7 +13,9 @@ return [
     ],
     'visibility_types' => [
         'me' => 'Me',
+        'following' => 'Following',
         'followers' => 'Followers',
+        'following_followers' => 'Following and Followers',
         'public' => 'Public'
     ]
 ];

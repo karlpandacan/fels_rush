@@ -33,13 +33,15 @@ class StudyController extends Controller
         $following = $user->followers()->notAdmin()->count();
         $followingIds = $user->followers()->lists('follows.follower_id');
         $followingIds->push($user->id);
+        $followeeIds = $user->followeeIds()->lists('followee_id');
+        $followeeIds->push($user->id);
         $activitiesFollow = Activity::userIds($followingIds)->follow()->take(10)->latest()->get();
         $categories = Category::lists('name', 'id');
         $categories['all'] = 'All';
         $recommendedSets = Set::where('recommended', 1)->with('user')->paginate(5);
         // Eloquent of sets
         $setsIni = $user->studies()
-            ->availableSets($followingIds, $user->id)
+            ->availableSets($followingIds, $followeeIds, $user->id)
             ->where('name', 'LIKE', '%'.$request->q.'%');
         if(isset($request->category) and $request->category != 'all') {
             $setsIni = $setsIni->where('category_id', $request->category);

@@ -27,6 +27,8 @@ class SetController extends Controller
         $user = auth()->user();
         $followingIds = $user->followers()->lists('follows.follower_id');
         $followingIds->push($user->id);
+        $followeeIds = $user->followeeIds()->lists('followee_id');
+        $followeeIds->push($user->id);
         $activities = Activity::notFollow()->latest()->paginate(15);
         $activities->load('user');
         $learnedWords = $user->learnedWords()->count();
@@ -46,7 +48,9 @@ class SetController extends Controller
                 'sets' => $sets
             ]);
         } else {
-            $recommendedSets = Set::where('recommended', 1)->availableSets($followingIds, $user->id)->paginate(5);
+            $recommendedSets = Set::where('recommended', 1)
+                ->availableSets($followingIds, $followeeIds, $user->id)
+                ->paginate(5);
             $sets = auth()->user()->sets()->with('words')->paginate(20);
             $sets->load('users');
             return view('sets.home', [
@@ -195,13 +199,15 @@ class SetController extends Controller
         $following = $user->followers()->notAdmin()->count();
         $followingIds = $user->followers()->lists('follows.follower_id');
         $followingIds->push($user->id);
+        $followeeIds = $user->followeeIds()->lists('followee_id');
+        $followeeIds->push($user->id);
         // Eloquent of sets
-        $setsIni = Set::where('name', 'LIKE', '%'.$request->q.'%')->with('words');
+        $setsIni = Set::where('name', 'LIKE', '%'.$request->q.'%')->with(['words', 'user.followers', 'user.followees']);
         if(isset($request->category) and $request->category != 'all') {
             $setsIni = $setsIni->where('category_id', $request->category);
         }
         if(!$user->isAdmin()) {
-            $setsIni = $setsIni->availableSets($followingIds, $user->id);
+            $setsIni = $setsIni->availableSets($followingIds, $followeeIds, $user->id);
         }
         if(isset($request->filter) and $request->filter != 'latest'){
             if($request->filter == 'pop') {
@@ -239,9 +245,13 @@ class SetController extends Controller
 
     public function getSets(){
         if (auth()->user->isAdmin()) {
-            $recommendedSets = Set::where('recommended', 1)->availableSets($followingIds, $user->id)->paginate(5);
+            $recommendedSets = Set::where('recommended', 1)
+                ->availableSets($followingIds, $followeeIds, $user->id)
+                ->paginate(5);
         } else {
-            $recommendedSets = Set::where('recommended', 1)->availableSets($followingIds, $user->id)->paginate(5);
+            $recommendedSets = Set::where('recommended', 1)
+                ->availableSets($followingIds, $followeeIds, $user->id)
+                ->paginate(5);
         }
         return $recommendedSets;
     }

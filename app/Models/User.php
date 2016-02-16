@@ -133,4 +133,9 @@ class User extends Authenticatable
             ->groupBy('id')
             ->orderBy('learned_words', 'desc');
     }
+
+    public function scopeFolloweeIds()
+    {
+        return Follow::where('follower_id', $this->id);
+    }
 }

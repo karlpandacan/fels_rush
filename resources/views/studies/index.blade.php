@@ -15,6 +15,7 @@
         <div class="panel panel-default">
             <div class="panel-body">
                 <div class="row">
+                    <div class="col-sm-8">
                         {{ Form::open(['url' => '/studies', 'method' => 'GET', 'class' => 'form-inline']) }}
                         <div class="form-group">
                             {{  Form::text('q', $wildcard, ['class' => 'form-control input-sm'], null) }}
@@ -26,6 +27,10 @@
                             {{ Form::submit('Search', ['class' => 'btn btn-primary ']) }}
                         </div>
                         {{ Form::close() }}
+                    </div>
+                    <div class="col-sm-4 text-right">
+                        Showing {{ $sets->firstItem().' to '.$sets->lastItem().' of '.$sets->total() }}
+                    </div>
                 </div>
                 <br>
                 <div class="row">
@@ -45,24 +50,25 @@
                                                 @if(!empty($set->image))
                                                     {!! Html::image('images/sets/' . $set->image, $set->name, ['style' => 'max-height: 60px; max-width: 60px;', 'name' => 'image']) !!}
                                                 @else
-                                                    {!! Html::image('images/cat_default.png', $set->name, ['style' => 'max-height: 60px; max-width: 60px;', 'name' => 'image']) !!}
+                                                    {!! Html::image('images_catch/cat.png', $set->name, ['style' => 'max-height: 60px; max-width: 60px;', 'name' => 'image']) !!}
                                                 @endif
                                             </td>
                                             <td class="col-xs-8 text-left ">
                                                 <span style=font-size:1.3em>
-                                                    <b>{{ $set->name }}</b> (
+                                                    <b>{{ $set->name }}</b>
+                                                </span>(
                                                     @if($set->learned_words == 0)
                                                         0 %
                                                     @else
-                                                        {{ 
+                                                        {{
                                                             round($set->learned_words / $set->total_words * 100)
                                                         }} %
                                                     @endif
                                                      done)<br>
-                                                </span> <br>
-                                                by {{ link_to_route('users.show', $user->name, $user->id, null) }}
-                                                with {{  count($set->words) }} Cards
-                                                created on {{ $set->created_at->format('Y/m/d') }}
+                                                by {{ link_to_route('users.show', $user->name, $user->id, null) }} |
+                                                {{  $set->words->count() }} Cards |
+                                                {{  $set->users->count() }} Studying  |
+                                                Created {{ $set->created_at->diffForHumans() }}
                                                 <p>
                                                     {{ substr($set->description, 0, 65) }}
                                                     {{ (strlen($set->description) > 65 ? '...' : '') }}
@@ -75,16 +81,20 @@
                                     @endforeach
                                 </tbody>
                             </table>
-                            <div class="row">
-                                {!! $sets->appends(['q' => $wildcard, 'category' => $selectedCategory])->links() !!}
-                            </div>
-
                         @else
                             <h3>No Record Found</h3>
                         @endif
                     </div>
                 </div>
             </div>
+            @if (count($studyProgress) > 0)
+                <div class="panel-footer text-center">
+                    {!! $sets->appends(['q' => $wildcard, 'category' => $selectedCategory])->links() !!}
+                    <p class="text-center">
+                        Showing {{ $sets->firstItem().' to '.$sets->lastItem().' of '.$sets->total() }}
+                    </p>
+                </div>
+            @endif
         </div>
     </div>
 @endsection

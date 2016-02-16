@@ -12,8 +12,8 @@
         </div>
     </div>
     <div class="col-sm-9 text-left">
-        <div class="panel panel-info">
-            <div class="panel-body">
+        <div class="panel panel-default">
+            <div class="panel-body panel-default">
                 <h2>Activities</h2>
                 <table class="table">
                     <tbody>
@@ -24,7 +24,7 @@
                                     @if(!empty($user->avatar))
                                         {!! Html::image($user->avatar, $user->name, ['style' => 'max-height: 60px; max-width:60px']) !!}
                                     @else
-                                        {!! Html::image('images/user_default.jpg', $user->name, ['style' => 'max-height: 60px; max-width:60px']) !!}
+                                        {!! Html::image('images_catch/user.jpg', $user->name, ['style' => 'max-height: 60px; max-width:60px']) !!}
                                     @endif
                                 </td>
                                 <td>

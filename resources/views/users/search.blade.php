@@ -17,13 +17,11 @@
         <div class="panel panel-default">
             <div class="panel-body">
                 <div class="col-md-9">
-                    @if(auth()->user()->isAdmin())
-                        <div class="col-md-12 text-center">
-                            <p>
-                                {{ link_to_route('users.create', 'Create New User', null, ['class' => 'btn btn-success']) }}
-                            </p>
-                        </div>
-                    @endif
+                    <div class="col-md-12 text-center">
+                        @if(auth()->user()->isAdmin())
+                        <p>{{ link_to_route('users.create', 'Create New User', null, ['class' => 'btn btn-success']) }}</p>
+                        @endif
+                    </div>
 
                     @if(!auth()->user()->isadmin())
                         <ul class="nav nav-tabs" role="tablist">
@@ -65,14 +63,19 @@
                                                         @if(!empty($user->avatar))
                                                             {!! Html::image($user->avatar, $user->name, ['style' => 'max-height: 60px; max-width:60px']) !!}
                                                         @else
-                                                            {!! Html::image('images/user_default.jpg', $user->name, ['style' => 'max-height: 60px; max-width:60px']) !!}
+                                                            {!! Html::image(url('images_catch/user.jpg'), $user->name, ['style' => 'max-height: 60px; max-width:60px']) !!}
                                                         @endif
                                                     </td>
                                                     <td class="col-xs-3 text-left">
                                                         <p>
                                                             <a href="/users/{{ $user->id }}">
                                                                 {{ $user->name }} <br>
-                                                                {{ $user->email }}
+                                                                {{ $user->email }} <br>
+                                                                @if(in_array($user->id, $usersFollowers->lists('id')->toArray()))
+                                                                    is Following You.
+                                                                @else
+                                                                    is Not Following You
+                                                                @endif
                                                             </a>
                                                         </p>
                                                     </td>
@@ -102,14 +105,19 @@
                                                         @if(!empty($user->avatar))
                                                             {!! Html::image($user->avatar, $user->name, ['style' => 'max-height: 60px; max-width:60px']) !!}
                                                         @else
-                                                            {!! Html::image('images/user_default.jpg', $user->name, ['style' => 'max-height: 60px; max-width:60px']) !!}
+                                                            {!! Html::image(url('images_catch/user.jpg'), $user->name, ['style' => 'max-height: 60px; max-width:60px']) !!}
                                                         @endif
                                                     </td>
                                                     <td class="col-xs-3 text-left">
                                                         <p>
                                                             <a href="/users/{{ $user->id }}">
                                                                 {{ $user->name }} <br>
-                                                                {{ $user->email }}
+                                                                {{ $user->email }}<br>
+                                                                @if(in_array($user->id, $usersFollowers->lists('id')->toArray()))
+                                                                    is Following You.
+                                                                @else
+                                                                    is Not Following You
+                                                                @endif
                                                             </a>
                                                         </p>
                                                     </td>
@@ -117,7 +125,6 @@
                                                         {!! Form::model($user, array('method' => 'DELETE', 'route' => array('follows.destroy', $user->id))) !!}
                                                         {!! Form::submit('Unfollow', ['class' => 'btn btn-danger']) !!}
                                                         {!! Form::close() !!}
-
                                                     </td>
                                                 </tr>
                                             @endforeach
@@ -137,7 +144,7 @@
                                                         @if(!empty($user->avatar))
                                                             {!! Html::image($user->avatar, $user->name, ['style' => 'max-height: 60px; max-width:60px']) !!}
                                                         @else
-                                                            {!! Html::image('images/user_default.png', $user->name, ['style' => 'max-height: 60px; max-width:60px']) !!}
+                                                            {!! Html::image(url('images_catch/user.jpg'), $user->name, ['style' => 'max-height: 60px; max-width:60px']) !!}
                                                         @endif
                                                     </td>
                                                     <td class="col-xs-3 text-left">
@@ -149,7 +156,6 @@
                                                         </p>
                                                     </td>
                                                     <td class="col-xs-2 text-left">
-{{--                                                        @if(auth()->user()->followers()->where('follower_id', $user->id)->exists())--}}
                                                         @if(in_array($user->id, $usersFollowing->lists('id')->toArray()))
                                                             {!! Form::model($user, array('method' => 'DELETE', 'route' => array('follows.destroy', $user->id))) !!}
                                                                 {!! Form::submit('Unfollow', ['class' => 'btn btn-danger']) !!}
@@ -180,7 +186,7 @@
                                                 @if(!empty($user->avatar))
                                                     {!! Html::image($user->avatar, $user->name, ['style' => 'max-height: 60px; max-width:60px']) !!}
                                                 @else
-                                                    {!! Html::image('images/user_default.png', $user->name, ['style' => 'max-height: 60px; max-width:60px']) !!}
+                                                    {!! Html::image(url('/images_catch/user.jpg'), $user->name, ['style' => 'max-height: 60px; max-width:60px']) !!}
                                                 @endif
                                             </td>
                                             <td class="col-xs-3 text-left">

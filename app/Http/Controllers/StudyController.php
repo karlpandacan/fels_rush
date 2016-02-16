@@ -44,10 +44,11 @@ class StudyController extends Controller
         if(isset($request->category) and $request->category != 'all') {
             $setsIni = $setsIni->where('category_id', $request->category);
         }
-        $setsIni = $setsIni->with('words')
+        $setsIni = $setsIni
             ->latest()
             ->paginate(10);
         $sets = $setsIni;
+        $sets->load('words', 'users');
         return view('studies.index',[
             'sets' => $sets,
             'user' => auth()->user(),
@@ -60,7 +61,7 @@ class StudyController extends Controller
             'activitiesFollow' => $activitiesFollow,
             'followed_sets' => $user->getSetsFollowed()->toArray(),
             'recommendedSets' => $recommendedSets,
-            'studyProgress' => $user->getStudyProgress()->get()
+            'studyProgress' => $user->getStudyProgress()->with('words', 'users')->get()
         ]);
     }
 

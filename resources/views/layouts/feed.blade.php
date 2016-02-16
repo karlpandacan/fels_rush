@@ -31,11 +31,23 @@
                     @else
                         <p>No Recommended Sets Found.</p>
                     @endif
-                    <div class="col-xs-12 text-center">
-                        <b>Page {{ $recommendedSets->currentPage() }}</b>
-                    </div>
-                    {{ $recommendedSets->render() }}
                 </div>
+            </div>
+            <div class="row">
+                <nav>
+                    <ul class="pager">
+                        <div class="col-xs-6 text-left">
+                            @if(!empty($recommendedSets->previousPageUrl()))
+                                <li><a href="{{ $recommendedSets->previousPageUrl() }}">Previous</a></li>
+                            @endif
+                        </div>
+                        <div class="col-xs-6 text-right">
+                            @if(!empty($recommendedSets->nextPageUrl()))
+                                <li><a href="{{ $recommendedSets->nextPageUrl() }}">Next</a></li>
+                            @endif
+                        </div>
+                    </ul>
+                </nav>
             </div>
         </div>
     </div>

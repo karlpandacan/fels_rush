@@ -34,9 +34,9 @@
                     <div class="form-group">
                         {!! Form::label('image', 'Current Image') !!}<br>
                         @if(!empty($set->image))
-                            {!! Html::image('images/sets/' . $set->image, $set->name, ['style' => 'max-height: 125px;', 'name' => 'image']) !!}
+                            {!! Html::image($set->image, $set->name, ['style' => 'max-height: 125px;', 'name' => 'image']) !!}
                         @else
-                            {!! Html::image('images/cat_default.png', $set->name, ['style' => 'max-height: 125px;', 'name' => 'image']) !!}
+                            {!! Html::image('images_catch/cat.png', $set->name, ['style' => 'max-height: 125px;', 'name' => 'image']) !!}
                         @endif
                     </div>
                 </div>

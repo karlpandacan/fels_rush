@@ -34,20 +34,24 @@ class StudyController extends Controller
         $following = $user->followers()->notAdmin()->count();
         $followingIds = $user->followers()->lists('follows.follower_id');
         $followingIds->push($user->id);
+        $followeeIds = $user->followeeIds()->lists('followee_id');
+        $followeeIds->push($user->id);
         $activitiesFollow = Activity::userIds($followingIds)->follow()->take(10)->latest()->get();
         $categories = Category::lists('name', 'id');
         $categories['all'] = 'All';
         $recommendedSets = Set::where('recommended', 1)->with('user')->paginate(5);
-        \DB::enableQueryLog();
-        $setInit = $user->getStudyProgress();
-        if($selectedCategory != 'all')
-            $setInit = $setInit->where('category_id', $selectedCategory);
-        if(isset($request->q))
-            $setInit = $setInit->where('sets.name', 'LIKE', '%'.$request->q.'%');
-        $sets = $setInit
-            ->with('words', 'users')
-            ->paginate(15);
-//        dd(\DB::getQueryLog());
+        // Eloquent of sets
+        $setsIni = $user->studies()
+            ->availableSets($followingIds, $followeeIds, $user->id)
+            ->where('name', 'LIKE', '%'.$request->q.'%');
+        if(isset($request->category) and $request->category != 'all') {
+            $setsIni = $setsIni->where('category_id', $request->category);
+        }
+        $setsIni = $setsIni
+            ->latest()
+            ->paginate(10);
+        $sets = $setsIni;
+        $sets->load('words', 'users');
         return view('studies.index',[
             'sets' => $sets,
             'user' => auth()->user(),

@@ -13,9 +13,9 @@ class ComposerServiceProvider extends ServiceProvider
      */
     public function boot()
     {
-        view()->composer(
-            '*', 'App\Http\Composers\ProfileComposer'
-        );
+//        view()->composer(
+//            '*', 'App\Http\Composers\ProfileComposer'
+//        );
     }
 
     /**

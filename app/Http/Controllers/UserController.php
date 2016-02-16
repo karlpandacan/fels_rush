@@ -139,8 +139,8 @@ class UserController extends Controller
                 ->with('usersFollowers', $usersFollowers)
                 ->with('usersFollowing', $usersFollowing)
                 ->with('usersNotFollowing', $usersNotFollowing)
-                ->with('followed_sets', $user->getSetsFollowed()->toArray());
-//                ->with('recommendedSets', Set::where('recommended', 1)->paginate(5));
+                ->with('followed_sets', $user->getSetsFollowed()->toArray())
+                ->with('recommendedSets', Set::where('recommended', 1)->paginate(5));
         } else {
             $users = User::findUser($wildcard)->get();
             return view('users.search')

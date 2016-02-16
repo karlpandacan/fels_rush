@@ -29,6 +29,8 @@ class HomeController extends Controller
         $user = auth()->user();
         $followingIds = $user->followers()->lists('follows.follower_id');
         $followingIds->push($user->id);
+        $followeeIds = $user->followeeIds()->lists('followee_id');
+        $followeeIds->push($user->id);
         if($user->isAdmin()){
             $activities = Activity::notFollow()->latest()->paginate(15);
             $activitiesFollow = Activity::follow()->take(10)->latest()->get();
@@ -36,7 +38,9 @@ class HomeController extends Controller
         } else {
             $activities = Activity::userIds($followingIds)->notFollow()->latest()->paginate(15);
             $activitiesFollow = Activity::userIds($followingIds)->follow()->take(10)->latest()->get();
-            $recommendedSets = Set::where('recommended', 1)->availableSets($followingIds, $user->id)->simplePaginate(5);
+            $recommendedSets = Set::where('recommended', 1)
+                ->availableSets($followingIds, $followeeIds, $user->id)
+                ->simplePaginate(5);
         }
 
         $activities->load('user');

@@ -15,7 +15,7 @@ class CreateSetsTable extends Migration
         Schema::create('sets', function (Blueprint $table) {
             $table->increments('id');
             $table->integer('category_id')->unsigned()->index();
-            $table->enum('visible_to', ['me', 'followers', 'public']);
+            $table->enum('visible_to', ['me', 'following', 'followers', 'following_followers', 'public']);
             $table->integer('user_id')->unsigned()->index();
             $table->tinyinteger('recommended')->default(0);
             $table->string('name', 255);

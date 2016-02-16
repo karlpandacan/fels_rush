@@ -78,7 +78,7 @@
                                                     {{ link_to_route('sets.show', $set->name, $set->id) }}
                                                 </b>
                                             </span> <br>
-                                                by {{ link_to_route('users.show', $user->name, $user->id, null) }} |
+                                                by {{ link_to_route('users.show', $set->user->name, $set->user->id, null) }} |
                                                 {{  count($set->words) }} Cards |
                                                 {{ count($set->users) }} Studying |
                                                 Created {{ $set->created_at->diffForHumans() }}

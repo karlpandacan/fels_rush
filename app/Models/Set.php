@@ -104,16 +104,26 @@ class Set extends Model
         }
     }
 
-    public function scopeAvailableSets($query, $ids, $id)
+    public function scopeAvailableSets($query, $followerIds, $followeeIds, $id)
     {
+        $mergedIds = $followerIds->merge($followeeIds)->unique();
+
         return $query->Where('visible_to', '=', 'public')
-            ->orWhere(function ($query2) use ($ids){
-                $query2->whereIn('sets.user_id', $ids)
+            ->orWhere(function ($query2) use ($followerIds) {
+                $query2->whereIn('sets.user_id', $followerIds)
                     ->where('visible_to', 'followers');
             })
             ->orWhere(function ($query3) use ($id) {
                 $query3->where('sets.user_id', $id)
                     ->where('visible_to', 'me');
+            })
+            ->orWhere(function ($query4) use ($followeeIds) {
+                $query4->whereIn('sets.user_id', $followeeIds)
+                    ->where('visible_to', 'following');
+            })
+            ->orWhere(function ($query5) use ($mergedIds) {
+                $query5->whereIn('sets.user_id', $mergedIds)
+                    ->where('visible_to', 'following_followers');
             });
     }
 
@@ -134,6 +144,16 @@ class Set extends Model
             GROUP BY set_id";
 
         return DB::raw($query);
+    }
+
+    public function scopeUserFolloweeSets($query, $user)
+    {
+        return $query->whereIn('user_id', $user->followees()->notAdmin());
+    }
+
+    public function scopeUserFollowerSets($query, $user)
+    {
+        return $query->whereIn('user_id', $user->followers()->notAdmin());
     }
 
 }
